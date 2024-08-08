@@ -8,7 +8,7 @@ digital-library* is an OpenAlex frontend for browsing scholarly documents and au
 
 Works can be filtered by work title, author, publication year, source, work type, and access status. 
 
-Cited and related works can also be shown. 
+Cited and related works can also be dislpayed. 
 
 ![Work filters](static/readme/work_filters.png)
 
