@@ -52,7 +52,7 @@ Authors can also be filtered by if they have an ORCID iD.
 
 ![Has ORCID iD](static/readme/orcid.png)
 
-## Notes
+# Notes
 
 *Placeholder name.
 
