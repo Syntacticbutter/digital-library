@@ -46,11 +46,15 @@ The "authors" page has the same Institution and Author filter as the "works" pag
 
 ![Author filters](static/readme/authors.png)
 
-### Show authors  ORCID iD
+### Show authors with an ORCID iD
 
 Authors can also be filtered by if they have an ORCID iD.
 
 ![Has ORCID iD](static/readme/orcid.png)
+
+## Notes
+
+*Placeholder name.
 
 <!-- # create-svelte
 
