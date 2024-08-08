@@ -8,13 +8,17 @@ digital-library* is an OpenAlex frontend for browsing scholarly documents and au
 
 Works can be filtered by work title, author, publication year, source, work type, and access status. 
 
-Cited and related works can also be dislpayed. 
+Cited and related works can also be displayed. 
 
 ![Work filters](static/readme/work_filters.png)
 
 Works can also be filtered by whether a fulltext version is available (though it does not indicate that a work is completely open to access).
 
 ![Work has fulltext](static/readme/fulltext.png)
+
+Work entries can be previewed.
+
+![Work preview](static/readme/work_preview.png)
 
 ### Filter by work title
 
@@ -47,6 +51,10 @@ Works can also be filtered by whether a fulltext version is available (though it
 The "authors" page has the same Institution and Author filter as the "works" page.
 
 ![Author filters](static/readme/authors.png)
+
+Like work entries, author entries can also be previewed.
+
+![Author preview](static/readme/author_preview.png)
 
 ### Show authors with an ORCID iD
 
