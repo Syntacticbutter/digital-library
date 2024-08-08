@@ -54,7 +54,7 @@ Authors can also be filtered by if they have an ORCID iD.
 
 # Notes
 
-*Placeholder name.
+*placeholder name
 
 <!-- # create-svelte
 
