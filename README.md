@@ -3,7 +3,6 @@
 digital-library\* is an OpenAlex frontend for browsing scholarly documents and authors.
 
 ![1](static/readme/1.png)
-
 ![2](static/readme/2.png)
 
 ## Works
