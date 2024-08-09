@@ -64,7 +64,7 @@
 
 	onMount(getInstitute);
 
-	const fetchData = async () => {
+	const fetchAuthors = async () => {
 		try {
 			let api = `https://api.openalex.org/authors?cursor=${cursor || '*'}&per-page=${pageSize}&sort=works_count:desc&search=${searchTerm}&filter=works_count:>0`;
 
@@ -73,7 +73,7 @@
 			}
 
 			if (ORCID_iD !== '') {
-				api += `,has_orcid:true`;
+				api += `,has_orcid:${ORCID_iD}`;
 			}
 
 			if (institutionId !== '') {
@@ -83,7 +83,7 @@
 			console.log(api);
 			const response = await axios.get(api);
 			items = response.data.results;
-			console.log('fetchData successful', items);
+			console.log('fetchAuthors successful', items);
 			console.log(response.data);
 			console.log(response.data.meta.count, 'results');
 
@@ -99,20 +99,20 @@
 		}
 	};
 
-	onMount(fetchData);
+	onMount(fetchAuthors);
 
 	async function nextPage() {
 		if (next) {
 			cursorHistory.push(cursor || '*'); // Save current cursor to history
 			cursor = next;
-			await fetchData();
+			await fetchAuthors();
 		}
 	}
 
 	async function prevPage() {
 		if (cursorHistory.length > 0) {
 			cursor = cursorHistory.pop() || '*'; // Restore previous cursor from history
-			await fetchData();
+			await fetchAuthors();
 		}
 	}
 
@@ -126,11 +126,13 @@
 		await getInstitute();
 	};
 
-	function runSearch() {
+	function runSearch(string: string) {
 		cursor = '*';
+		searchTerm = string;
 		authorId = '';
 		authorName = '';
-		fetchData();
+		console.log(searchTerm);
+		fetchAuthors();
 	}
 
 	function clearSearch() {
@@ -141,7 +143,7 @@
 		ORCID_iD = '';
 		institutionId = '';
 		instituteName = '';
-		fetchData();
+		fetchAuthors();
 	}
 
 	function clearAuthor() {
@@ -149,7 +151,7 @@
 		searchTerm = '';
 		authorId = '';
 		authorName = '';
-		fetchData();
+		fetchAuthors();
 	}
 
 	function clearInstitute() {
@@ -157,57 +159,36 @@
 		searchTerm = '';
 		institutionId = '';
 		instituteName = '';
-		fetchData();
+		fetchAuthors();
 	}
 
-	function copyAuthorId(id: string) {
-		navigator.clipboard
-			.writeText(id)
-			.then(() => {
-				authorId = id;
-				searchTerm = '';
-				cursor = '*';
-				fetchData();
-			})
-			.catch((error) => {
-				console.error('Failed to copy:', error);
-			});
+	function setAuthor(id: string, string: string) {
+		cursor = '*';
+		searchTerm = '';
+		authorId = id;
+		authorName = string;
+		console.log('[' + authorId + ']', authorName);
+		fetchAuthors();
 	}
 
-	function copyAuthorName(name: string) {
-		navigator.clipboard;
-		authorName = name;
-	}
-
-	function copyInstituteId(id: string) {
-		navigator.clipboard
-			.writeText(id)
-			.then(() => {
-				searchTerm = '';
-				institutionId = id;
-				cursor = '*';
-				fetchData();
-			})
-			.catch((error) => {
-				console.error('Failed to copy:', error);
-			});
-	}
-
-	function copyInstituteName(name: string) {
-		navigator.clipboard;
-		instituteName = name;
+	function setInstitute(id: string, string: string) {
+		cursor = '*';
+		institutionId = id;
+		instituteName = string;
+		console.log('[' + institutionId + ']', instituteName);
+		fetchAuthors();
 	}
 
 	function has_ORCID_iD() {
-		ORCID_iD = 'y';
 		cursor = '*';
-		fetchData();
+		ORCID_iD = 'true';
+		fetchAuthors();
 	}
 
 	function reset_identifier() {
-		ORCID_iD = '';
 		cursor = '*';
-		fetchData();
+		ORCID_iD = '';
+		fetchAuthors();
 	}
 </script>
 
@@ -326,10 +307,12 @@
 																				<button
 																					class="padding p-.5 text justify cursor-default select-none justify-items-start rounded-sm text-left text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																					on:click={() =>
-																						copyInstituteId(
-																							institute.id.substring('https://openalex.org/'.length)
+																						setInstitute(
+																							institute.id.substring(
+																								'https://openalex.org/'.length
+																							),
+																							institute.display_name
 																						)}
-																					on:click={() => copyInstituteName(institute.display_name)}
 																				>
 																					{institute.display_name} <br /><span class="text text-xs"
 																						>{institute.hint} · {institute.works_count} works
@@ -496,10 +479,10 @@
 																				<button
 																					class="padding p-.5 text justify cursor-default select-none justify-items-start rounded-sm text-left text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																					on:click={() =>
-																						copyAuthorId(
-																							author.id.substring('https://openalex.org/'.length)
+																						setAuthor(
+																							author.id.substring('https://openalex.org/'.length),
+																							author.display_name
 																						)}
-																					on:click={() => copyAuthorName(author.display_name)}
 																				>
 																					{author.display_name} <br />
 																					<span class="text text-xs">
@@ -579,137 +562,8 @@
 
 							<div class="flex items-center py-4">
 								<div class="flex flex-1 items-center justify-between space-x-2 md:justify-start">
-									<!-- <Dialog.Root>
-										<div class="w-full flex-1 md:w-auto md:flex-none">
-											<Dialog.Trigger>
-												<Button size="icon" variant="outline">
-													<svg
-														width="15"
-														height="15"
-														viewBox="0 0 15 15"
-														fill="none"
-														xmlns="http://www.w3.org/2000/svg"
-														><path
-															d="M7.5 0.875C5.49797 0.875 3.875 2.49797 3.875 4.5C3.875 6.15288 4.98124 7.54738 6.49373 7.98351C5.2997 8.12901 4.27557 8.55134 3.50407 9.31167C2.52216 10.2794 2.02502 11.72 2.02502 13.5999C2.02502 13.8623 2.23769 14.0749 2.50002 14.0749C2.76236 14.0749 2.97502 13.8623 2.97502 13.5999C2.97502 11.8799 3.42786 10.7206 4.17091 9.9883C4.91536 9.25463 6.02674 8.87499 7.49995 8.87499C8.97317 8.87499 10.0846 9.25463 10.8291 9.98831C11.5721 10.7206 12.025 11.8799 12.025 13.5999C12.025 13.8623 12.2376 14.0749 12.5 14.0749C12.7623 14.075 12.975 13.8623 12.975 13.6C12.975 11.72 12.4778 10.2794 11.4959 9.31166C10.7244 8.55135 9.70025 8.12903 8.50625 7.98352C10.0187 7.5474 11.125 6.15289 11.125 4.5C11.125 2.49797 9.50203 0.875 7.5 0.875ZM4.825 4.5C4.825 3.02264 6.02264 1.825 7.5 1.825C8.97736 1.825 10.175 3.02264 10.175 4.5C10.175 5.97736 8.97736 7.175 7.5 7.175C6.02264 7.175 4.825 5.97736 4.825 4.5Z"
-															fill="currentColor"
-															fill-rule="evenodd"
-															clip-rule="evenodd"
-														></path></svg
-													>
-												</Button>
-											</Dialog.Trigger>
-											<Dialog.Content class="padding p-0">
-												<Command.Root>
-													<div class="flex items-center border-b px-3">
-														<svg
-															class="mr-2 h-4 w-4 shrink-0 opacity-50"
-															viewBox="0 0 15 15"
-															fill="none"
-															xmlns="http://www.w3.org/2000/svg"
-															><path
-																d="M10 6.5C10 8.433 8.433 10 6.5 10C4.567 10 3 8.433 3 6.5C3 4.567 4.567 3 6.5 3C8.433 3 10 4.567 10 6.5ZM9.30884 10.0159C8.53901 10.6318 7.56251 11 6.5 11C4.01472 11 2 8.98528 2 6.5C2 4.01472 4.01472 2 6.5 2C8.98528 2 11 4.01472 11 6.5C11 7.56251 10.6318 8.53901 10.0159 9.30884L12.8536 12.1464C13.0488 12.3417 13.0488 12.6583 12.8536 12.8536C12.6583 13.0488 12.3417 13.0488 12.1464 12.8536L9.30884 10.0159Z"
-																fill="currentColor"
-																fill-rule="evenodd"
-																clip-rule="evenodd"
-															></path></svg
-														>
-														<input
-															class="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
-															type="text"
-															bind:value={authorName}
-															on:input={autocompleteAuthor}
-															placeholder="Type author name"
-														/>
-													</div>
-													{#if authorId !== ''}
-														<Command.Group heading="Actions">
-															<Command.Item>
-																<button
-																	class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-																	on:click={clearAuthor}
-																>
-																	<p style="display: inline-flex; align-items:center">
-																		<svg
-																			class="margin-right mr-2"
-																			width="15"
-																			height="15"
-																			viewBox="0 0 15 15"
-																			fill="none"
-																			xmlns="http://www.w3.org/2000/svg"
-																			><path
-																				d="M4.85355 2.14645C5.04882 2.34171 5.04882 2.65829 4.85355 2.85355L3.70711 4H9C11.4853 4 13.5 6.01472 13.5 8.5C13.5 10.9853 11.4853 13 9 13H5C4.72386 13 4.5 12.7761 4.5 12.5C4.5 12.2239 4.72386 12 5 12H9C10.933 12 12.5 10.433 12.5 8.5C12.5 6.567 10.933 5 9 5H3.70711L4.85355 6.14645C5.04882 6.34171 5.04882 6.65829 4.85355 6.85355C4.65829 7.04882 4.34171 7.04882 4.14645 6.85355L2.14645 4.85355C1.95118 4.65829 1.95118 4.34171 2.14645 4.14645L4.14645 2.14645C4.34171 1.95118 4.65829 1.95118 4.85355 2.14645Z"
-																				fill="currentColor"
-																				fill-rule="evenodd"
-																				clip-rule="evenodd"
-																			></path></svg
-																		>
-																		Reset
-																	</p>
-																</button>
-															</Command.Item>
-														</Command.Group>
-													{:else}
-														<div></div>
-													{/if}
-													<Command.List>
-														<Command.Group heading="Authors">
-															<Command.Empty>No results found.</Command.Empty>
-															{#each autocomplete_authors as author}
-																<Command.Item>
-																	<button
-																		class="padding p-.5 relative flex cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-																		on:click={() =>
-																			copyAuthorId(
-																				author.id.substring('https://openalex.org/'.length)
-																			)}
-																		on:click={() => copyAuthorName(author.display_name)}
-																	>
-																		{author.display_name}
-																	</button>
-																</Command.Item>
-															{/each}
-														</Command.Group>
-														<Command.Separator />
-													</Command.List>
-													{#if authorId !== ''}
-														<div
-															class="
-                                                    padding relative flex cursor-default select-none items-center
-                                                    rounded-sm p-2 text-sm outline-none hover:text-blue-500
-                                                    aria-selected:bg-accent aria-selected:text-accent-foreground
-                                                    data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-														>
-															<p
-																style="display: inline-flex; align-items:center"
-																class="text-sm dark:text-lime-400"
-															>
-																<svg
-																	class="margin-right mr-2"
-																	width="15"
-																	height="15"
-																	viewBox="0 0 15 15"
-																	fill="none"
-																	xmlns="http://www.w3.org/2000/svg"
-																	><path
-																		d="M7.49991 0.877045C3.84222 0.877045 0.877075 3.84219 0.877075 7.49988C0.877075 11.1575 3.84222 14.1227 7.49991 14.1227C11.1576 14.1227 14.1227 11.1575 14.1227 7.49988C14.1227 3.84219 11.1576 0.877045 7.49991 0.877045ZM1.82708 7.49988C1.82708 4.36686 4.36689 1.82704 7.49991 1.82704C10.6329 1.82704 13.1727 4.36686 13.1727 7.49988C13.1727 10.6329 10.6329 13.1727 7.49991 13.1727C4.36689 13.1727 1.82708 10.6329 1.82708 7.49988ZM10.1589 5.53774C10.3178 5.31191 10.2636 5.00001 10.0378 4.84109C9.81194 4.68217 9.50004 4.73642 9.34112 4.96225L6.51977 8.97154L5.35681 7.78706C5.16334 7.59002 4.84677 7.58711 4.64973 7.78058C4.45268 7.97404 4.44978 8.29061 4.64325 8.48765L6.22658 10.1003C6.33054 10.2062 6.47617 10.2604 6.62407 10.2483C6.77197 10.2363 6.90686 10.1591 6.99226 10.0377L10.1589 5.53774Z"
-																		fill="currentColor"
-																		fill-rule="evenodd"
-																		clip-rule="evenodd"
-																	></path></svg
-																>
-																Filter active: {authorName}
-															</p>
-														</div>
-													{:else}
-														<div></div>
-													{/if}
-												</Command.Root>
-											</Dialog.Content>
-										</div>
-									</Dialog.Root> -->
-
 									<div class="w-full flex-1 md:w-auto md:flex-none">
-										<form on:submit={runSearch}>
+										<form on:submit={() => runSearch(searchTerm)}>
 											<input
 												class="flex h-9 w-screen max-w-sm rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 only:focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 												type="text"
@@ -718,7 +572,7 @@
 											/>
 										</form>
 									</div>
-									<Button variant="default" size="icon" on:click={runSearch}>
+									<Button variant="default" size="icon" on:click={() => runSearch(searchTerm)}>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											viewBox="0 0 24 24"
@@ -1101,11 +955,10 @@
 																size="sm"
 																class="text text-md"
 																on:click={() =>
-																	copyInstituteId(
-																		last_known.id.substring('https://openalex.org/'.length)
-																	)}
-																on:click={() => copyInstituteName(last_known.display_name)}
-																>{last_known.display_name}</Button
+																	setInstitute(
+																		last_known.id.substring('https://openalex.org/'.length),
+																		last_known.display_name
+																	)}>{last_known.display_name}</Button
 															>
 														{/each}
 													</div>
@@ -1362,13 +1215,12 @@
 																				size="sm"
 																				class="text text-base font-normal text-blue-500"
 																				on:click={() =>
-																					copyInstituteId(
+																					setInstitute(
 																						affiliations.institution.id.substring(
 																							'https://openalex.org/'.length
-																						)
+																						),
+																						affiliations.institution.display_name
 																					)}
-																				on:click={() =>
-																					copyInstituteName(affiliations.institution.display_name)}
 																				>{affiliations.institution.display_name}
 																				<svg
 																					class="margin-left ml-2"

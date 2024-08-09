@@ -1,70 +1,88 @@
 # Overview
 
-digital-library* is an OpenAlex frontend for browsing scholarly documents and authors.
+digital-library\* is an OpenAlex frontend for browsing scholarly documents and authors.
 
-![Overview](static/readme/header.png)
+![1](static/readme/1.png)
 
-## Filtering works
+![2](static/readme/2.png)
 
-Works can be filtered by author, publication year, source, work type, and access status. Users can also search exact works.
+## Works
 
-Cited and related works can also be displayed. 
+![3](static/readme/3.png)
 
-![Work filters](static/readme/work_filters.png)
+Works can be filtered by the following:
 
-Works can also be filtered by whether a fulltext version is available (though it does not indicate that a work is completely open to access).
+### Keywords from title, abstract, or fulltext
 
-![Work has fulltext](static/readme/fulltext.png)
+![search_work](static/readme/search_work.png)
+
+### Exact title
+
+![6](static/readme/6.png)
+![7](static/readme/7.png)
+
+### Work has fulltext
+
+![4](static/readme/4.png)
+
+### Institution
+
+![8](static/readme/8.png)
+
+### Author
+
+![9](static/readme/9.png)
+
+### Publication year
+
+![10](static/readme/10.png)
+
+### Source
+
+![11](static/readme/11.png)
+
+### Work type
+
+![12](static/readme/12.png)
+
+### Access status
+
+![13](static/readme/13.png)
 
 Work entries can be previewed.
 
-![Work preview](static/readme/work_preview.png)
+![5](static/readme/5.png)
 
-### Search exact work
+## Authors
 
-![Filter by work title](static/readme/filter_work.png)
+![14](static/readme/14.png)
 
-![Search exact work](static/readme/exact_work.png)
+Authors can be filtered by the following:
 
-### Filter by author
+### Search query
 
-![Filter by author](static/readme/filter_author.png)
+![search_author](static/readme/search_author.png)
 
-### Filter by publication year
+### Exact author
 
-![Filter by publication year](static/readme/filter_year.png)
+![exact_author](static/readme/exact_author.png)
+![author_match](static/readme/author_match.png)
 
-### Filter by source
+### Institution
 
-![Filter by source](static/readme/filter_source.png)
+![exact_institution](static/readme/exact_institution.png)
 
-### Filter by work type
+### Author has ORCID iD
 
-![Filter by work type](static/readme/filter_type.png)
+![16](static/readme/16.png)
 
-### Filter by access status
+Author entries can be previewed.
 
-![Filter by access status](static/readme/filter_status.png)
-
-## Filtering authors
-
-The "authors" page has the same Institution and Author filter as the "works" page.
-
-![Author filters](static/readme/authors.png)
-
-Like work entries, author entries can also be previewed.
-
-![Author preview](static/readme/author_preview.png)
-
-### Show authors with an ORCID iD
-
-Authors can also be filtered by if they have an ORCID iD.
-
-![Has ORCID iD](static/readme/orcid.png)
+![15](static/readme/15.png)
 
 # Notes
 
-*placeholder name
+\*placeholder name
 
 <!-- # create-svelte
 

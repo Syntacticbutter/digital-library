@@ -126,7 +126,7 @@
 			}
 
 			if (fulltext !== '') {
-				api += `,has_fulltext:true`;
+				api += `,has_fulltext:${fulltext}`;
 			}
 
 			console.log(api);
@@ -258,7 +258,7 @@
 			}
 
 			if (fulltext !== '') {
-				api += `,has_fulltext:true`;
+				api += `,has_fulltext:${fulltext}`;
 			}
 
 			console.log(api);
@@ -279,6 +279,8 @@
 			console.error('There was a problem with the GET request:', error.message);
 		}
 	};
+
+	export { fetchData };
 
 	onMount(fetchData);
 
@@ -317,10 +319,12 @@
 		await getSources();
 	};
 
-	function runSearch() {
+	function runSearch(string: string) {
 		cursor = '*';
+		searchTerm = string;
 		workId = '';
 		workTitle = '';
+		console.log(searchTerm);
 		fetchData();
 	}
 
@@ -411,181 +415,105 @@
 		fetchData();
 	}
 
-	function copyAuthorId(id: string) {
-		navigator.clipboard
-			.writeText(id)
-			.then(() => {
-				authorId = id;
-				cursor = '*';
-				fetchData();
-			})
-			.catch((error) => {
-				console.error('Failed to copy:', error);
-			});
+	function setAuthor(id: string, string: string) {
+		cursor = '*';
+		authorId = id;
+		authorName = string;
+		console.log('[' + authorId + ']', authorName);
+		fetchData();
 	}
 
-	function copyAuthorName(name: string) {
-		navigator.clipboard;
-		authorName = name;
+	function setWork(id: string, string: string) {
+		cursor = '*';
+		searchTerm = '';
+		workId = id;
+		workTitle = string;
+		console.log('[' + workId + ']', workTitle);
+		fetchData();
 	}
 
-	function copyWorkId(id: string) {
-		navigator.clipboard
-			.writeText(id)
-			.then(() => {
-				searchTerm = '';
-				workId = id;
-				cursor = '*';
-				fetchData();
-			})
-			.catch((error) => {
-				console.error('Failed to copy:', error);
-			});
+	function setInstitute(id: string, string: string) {
+		cursor = '*';
+		institutionId = id;
+		instituteName = string;
+		console.log('[' + institutionId + ']', instituteName);
+		fetchData();
 	}
 
-	function copyWorkTitle(name: string) {
-		navigator.clipboard;
-		workTitle = name;
+	function setSource(id: string, string: string) {
+		cursor = '*';
+		sourceId = id;
+		sourceName = string;
+		console.log('[' + sourceId + ']', sourceName);
+		fetchData();
 	}
 
-	function copyInstituteId(id: string) {
-		navigator.clipboard
-			.writeText(id)
-			.then(() => {
-				institutionId = id;
-				cursor = '*';
-				fetchData();
-			})
-			.catch((error) => {
-				console.error('Failed to copy:', error);
-			});
+	function setPubYear(string: string) {
+		cursor = '*';
+		pubYear = string;
+		console.log(pubYear);
+		fetchData();
 	}
 
-	function copyInstituteName(name: string) {
-		navigator.clipboard;
-		instituteName = name;
+	function setWorkType(string: string) {
+		cursor = '*';
+		workType = string;
+		console.log(workType);
+		fetchData();
 	}
 
-	function copySourceId(id: string) {
-		navigator.clipboard
-			.writeText(id)
-			.then(() => {
-				sourceId = id;
-				cursor = '*';
-				fetchData();
-			})
-			.catch((error) => {
-				console.error('Failed to copy:', error);
-			});
+	function setStatus(string: string) {
+		cursor = '*';
+		statusName = string;
+		console.log(statusName);
+		fetchData();
 	}
 
-	function copySourceName(name: string) {
-		navigator.clipboard;
-		sourceName = name;
+	function setCitedBy(id: string) {
+		cursor = '*';
+		searchTerm = '';
+		workId = '';
+		workTitle = '';
+		citedBy = id;
+		cites = '';
+		related = '';
+		console.log(citedBy);
+		fetchData();
 	}
 
-	function copyPubYear(year: string) {
-		navigator.clipboard
-			.writeText(year)
-			.then(() => {
-				pubYear = year;
-				cursor = '*';
-				fetchData();
-			})
-			.catch((error: any) => {
-				console.error('Failed to copy:', error);
-			});
+	function setCites(id: string) {
+		cursor = '*';
+		searchTerm = '';
+		workId = '';
+		workTitle = '';
+		citedBy = '';
+		cites = id;
+		related = '';
+		console.log(cites);
+		fetchData();
 	}
 
-	function copyWorkType(type: string) {
-		navigator.clipboard
-			.writeText(type)
-			.then(() => {
-				workType = type;
-				cursor = '*';
-				fetchData();
-			})
-			.catch((error: any) => {
-				console.error('Failed to copy:', error);
-			});
-	}
-
-	function copyStatus(name: string) {
-		navigator.clipboard
-			.writeText(name)
-			.then(() => {
-				statusName = name;
-				cursor = '*';
-				fetchData();
-			})
-			.catch((error: any) => {
-				console.error('Failed to copy:', error);
-			});
-	}
-
-	function copyCitedBy(id: string) {
-		navigator.clipboard
-			.writeText(id)
-			.then(() => {
-				searchTerm = '';
-				workId = '';
-				workTitle = '';
-				cursor = '*';
-				citedBy = id;
-				cites = '';
-				related = '';
-				fetchData();
-			})
-			.catch((error) => {
-				console.error('Failed to copy:', error);
-			});
-	}
-
-	function copyCites(id: string) {
-		navigator.clipboard
-			.writeText(id)
-			.then(() => {
-				searchTerm = '';
-				workId = '';
-				workTitle = '';
-				cursor = '*';
-				citedBy = '';
-				cites = id;
-				related = '';
-				fetchData();
-			})
-			.catch((error) => {
-				console.error('Failed to copy:', error);
-			});
-	}
-
-	function copyRelated(id: string) {
-		navigator.clipboard
-			.writeText(id)
-			.then(() => {
-				searchTerm = '';
-				workId = '';
-				workTitle = '';
-				cursor = '*';
-				citedBy = '';
-				cites = '';
-				related = id;
-				fetchData();
-			})
-			.catch((error) => {
-				console.error('Failed to copy:', error);
-			});
+	function setRelated(id: string) {
+		cursor = '*';
+		searchTerm = '';
+		workId = '';
+		workTitle = '';
+		citedBy = '';
+		cites = '';
+		related = id;
+		console.log(related);
+		fetchData();
 	}
 
 	function has_fulltext() {
-		fulltext = 'y';
 		cursor = '*';
+		fulltext = 'true';
 		fetchData();
 	}
 
 	function clear_fulltext() {
-		fulltext = '';
 		cursor = '*';
+		fulltext = '';
 		fetchData();
 	}
 
@@ -641,7 +569,7 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline">
+														<Button size="sm" variant="outline" on:click={autocompleteInstitute}>
 															<svg
 																xmlns="http://www.w3.org/2000/svg"
 																width="16"
@@ -760,10 +688,12 @@
 																				<button
 																					class="padding p-.5 text justify cursor-default select-none justify-items-start rounded-sm text-left text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																					on:click={() =>
-																						copyInstituteId(
-																							institute.id.substring('https://openalex.org/'.length)
+																						setInstitute(
+																							institute.id.substring(
+																								'https://openalex.org/'.length
+																							),
+																							institute.display_name
 																						)}
-																					on:click={() => copyInstituteName(institute.display_name)}
 																				>
 																					{institute.display_name} <br /><span class="text text-xs"
 																						>{institute.hint} · {institute.works_count} works
@@ -958,10 +888,10 @@
 																				<button
 																					class="padding p-.5 text justify cursor-default select-none justify-items-start rounded-sm text-left text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																					on:click={() =>
-																						copyAuthorId(
-																							author.id.substring('https://openalex.org/'.length)
+																						setAuthor(
+																							author.id.substring('https://openalex.org/'.length),
+																							author.display_name
 																						)}
-																					on:click={() => copyAuthorName(author.display_name)}
 																				>
 																					{author.display_name} <br />
 																					<span class="text text-xs">
@@ -1131,7 +1061,7 @@
 																				<!-- class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50" -->
 																				<button
 																					class="padding p-.5 text justify cursor-default select-none justify-items-start rounded-sm text-left text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-																					on:click={() => copyPubYear(published.key_display_name)}
+																					on:click={() => setPubYear(published.key_display_name)}
 																				>
 																					<!-- <t class="text overflow-auto whitespace-normal text-left">
 																						{published.key_display_name}
@@ -1300,10 +1230,10 @@
 																				<button
 																					class="padding p-.5 text justify cursor-default select-none justify-items-start rounded-sm text-left text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																					on:click={() =>
-																						copySourceId(
-																							source.id.substring('https://openalex.org/'.length)
+																						setSource(
+																							source.id.substring('https://openalex.org/'.length),
+																							source.display_name
 																						)}
-																					on:click={() => copySourceName(source.display_name)}
 																				>
 																					{source.display_name} <br />
 																					<span class="text text-xs">{source.hint}</span>
@@ -1469,8 +1399,9 @@
 																			<Command.Item>
 																				<button
 																					class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-																					on:click={() => copyWorkType(type.key_display_name)}
+																					on:click={() => setWorkType(type.key_display_name)}
 																				>
+																					<!-- setWorkType(type.key_display_name)} -->
 																					<t class="text overflow-auto whitespace-normal text-left">
 																						{type.key_display_name} <br /><span class="text text-xs"
 																							>{type.count} works
@@ -1638,7 +1569,7 @@
 																			<Command.Item>
 																				<button
 																					class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-																					on:click={() => copyStatus(status.key_display_name)}
+																					on:click={() => setStatus(status.key_display_name)}
 																				>
 																					<t class="text overflow-auto whitespace-normal text-left">
 																						{status.key_display_name} <br /><span
@@ -1820,7 +1751,7 @@
 							<div class="flex items-center py-4">
 								<div class="flex flex-1 items-center justify-between space-x-2 md:justify-start">
 									<div class="w-full flex-1 md:w-auto md:flex-none">
-										<form on:submit={runSearch}>
+										<form on:submit={() => runSearch(searchTerm)}>
 											<!-- class="flex h-9 w-full max-w-sm rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 only:focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50" -->
 											<input
 												class="flex h-9 w-screen max-w-sm rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 only:focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
@@ -1830,7 +1761,7 @@
 											/>
 										</form>
 									</div>
-									<Button variant="default" size="icon" on:click={runSearch}>
+									<Button variant="default" size="icon" on:click={() => runSearch(searchTerm)}>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											viewBox="0 0 24 24"
@@ -1887,7 +1818,7 @@
 										<div class="w-full flex-1 md:w-auto md:flex-none">
 											<Dialog.Trigger>
 												{#if workId !== ''}
-													<Button size="sm" variant="ghost">
+													<Button size="sm" variant="ghost" on:click={autocompleteWork}>
 														<svg
 															class="margin-right mr-2 dark:text-lime-400"
 															width="15"
@@ -1904,7 +1835,12 @@
 														>Search exact work
 													</Button>
 												{:else}
-													<Button size="sm" variant="ghost" class="text text-muted-foreground">
+													<Button
+														size="sm"
+														variant="ghost"
+														class="text text-muted-foreground"
+														on:click={autocompleteWork}
+													>
 														<!-- <svg
 															class="margin-right mr-2 dark:text-lime-400"
 															width="15"
@@ -2009,10 +1945,10 @@
 																		<button
 																			class="padding p-.5 text justify cursor-default select-none justify-items-start rounded-sm text-left text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																			on:click={() =>
-																				copyWorkId(
-																					work.id.substring('https://openalex.org/'.length)
+																				setWork(
+																					work.id.substring('https://openalex.org/'.length),
+																					work.display_name
 																				)}
-																			on:click={() => copyWorkTitle(work.display_name)}
 																		>
 																			{work.display_name} <br />
 																			<span class="text text-xs">
@@ -2393,7 +2329,7 @@
 															variant="ghost"
 															size="sm"
 															class="text text-md"
-															on:click={() => copyPubYear(work.publication_year)}
+															on:click={() => setPubYear(work.publication_year)}
 															>{work.publication_date + ''}</Button
 														>
 														{#each work.authorships as author}
@@ -2403,11 +2339,10 @@
 																size="sm"
 																class="text text-md"
 																on:click={() =>
-																	copyAuthorId(
-																		author.author.id.substring('https://openalex.org/'.length)
-																	)}
-																on:click={() => copyAuthorName(author.author.display_name)}
-																>{author.author.display_name}</Button
+																	setAuthor(
+																		author.author.id.substring('https://openalex.org/'.length),
+																		author.author.display_name
+																	)}>{author.author.display_name}</Button
 															>
 														{/each}
 														{#if work.primary_location !== null}
@@ -2419,14 +2354,12 @@
 																	class="text text-md"
 																	style="font-style: italic;"
 																	on:click={() =>
-																		copySourceId(
+																		setSource(
 																			work.primary_location.source.id.substring(
 																				'https://openalex.org/'.length
-																			)
-																		)}
-																	on:click={() =>
-																		copySourceName(work.primary_location.source.display_name)}
-																	>{work.primary_location.source.display_name}</Button
+																			),
+																			work.primary_location.source.display_name
+																		)}>{work.primary_location.source.display_name}</Button
 																>
 															{:else}
 																<div></div>
@@ -2445,7 +2378,7 @@
 																variant="ghost"
 																size="sm"
 																on:click={() =>
-																	copyCites(work.id.substring('https://openalex.org/'.length))}
+																	setCites(work.id.substring('https://openalex.org/'.length))}
 															>
 																Cited by {work.cited_by_count}
 															</Button>
@@ -2730,13 +2663,12 @@
 																					size="sm"
 																					class="text text-base font-normal text-blue-500"
 																					on:click={() =>
-																						copyInstituteId(
+																						setInstitute(
 																							author.institutions[0].id.substring(
 																								'https://openalex.org/'.length
-																							)
+																							),
+																							author.institutions[0].display_name
 																						)}
-																					on:click={() =>
-																						copyInstituteName(author.institutions[0].display_name)}
 																					>{author.institutions[0].display_name}
 																					<svg
 																						class="margin-left ml-2"
@@ -2779,7 +2711,7 @@
 																				class="text text-base font-normal text-blue-500"
 																				style="text-transform: capitalize"
 																				on:click={() =>
-																					copyCitedBy(
+																					setCitedBy(
 																						work.id.substring('https://openalex.org/'.length)
 																					)}
 																				>{work.referenced_works_count}
@@ -2808,7 +2740,7 @@
 																				class="text text-base font-normal text-blue-500"
 																				style="text-transform: capitalize"
 																				on:click={() =>
-																					copyCites(
+																					setCites(
 																						work.id.substring('https://openalex.org/'.length)
 																					)}
 																				>{work.cited_by_count}
@@ -2837,7 +2769,7 @@
 																				class="text text-base font-normal text-blue-500"
 																				style="text-transform: capitalize"
 																				on:click={() =>
-																					copyRelated(
+																					setRelated(
 																						work.id.substring('https://openalex.org/'.length)
 																					)}
 																				>{work.related_works.length}
@@ -2911,7 +2843,7 @@
 																			variant="ghost"
 																			size="sm"
 																			class="text text-base font-normal text-blue-500"
-																			on:click={() => copyStatus(work.open_access.oa_status)}
+																			on:click={() => setStatus(work.open_access.oa_status)}
 																			>{work.open_access.oa_status}
 																			<svg
 																				class="margin-left ml-2"
@@ -2933,10 +2865,11 @@
 																</div>
 																<Sheet.Footer>
 																	<Sheet.Close asChild let:builder>
+																		<!-- on:click={() => setWorkType('"' + work.type + '"')} -->
 																		<Button
 																			builders={[builder]}
 																			variant="secondary"
-																			on:click={() => copyWorkType(work.type)}
+																			on:click={() => setWorkType(work.type)}
 																			>Filter by type - {work.type}
 																		</Button>
 																	</Sheet.Close>
