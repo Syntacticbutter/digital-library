@@ -57,7 +57,7 @@
 		</svg>
 	</Button>
 	<Button
-		href="https://github.com/Syntacticbutter/"
+		href="https://github.com/Syntacticbutter/digital-library"
 		variant="ghost"
 		size="icon"
 		target="_blank"
