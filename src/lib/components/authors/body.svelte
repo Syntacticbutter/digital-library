@@ -46,7 +46,7 @@
 		}
 	};
 
-	onMount(getAuthors);
+	// onMount(getAuthors);
 
 	const getInstitute = async () => {
 		try {
@@ -62,7 +62,7 @@
 		}
 	};
 
-	onMount(getInstitute);
+	// onMount(getInstitute);
 
 	const fetchAuthors = async () => {
 		try {
@@ -99,7 +99,7 @@
 		}
 	};
 
-	onMount(fetchAuthors);
+	// onMount(fetchAuthors);
 
 	async function nextPage() {
 		if (next) {

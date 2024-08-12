@@ -63,7 +63,7 @@
 		}
 	};
 
-	onMount(getInstitute);
+	// onMount(getInstitute);
 
 	const getAuthors = async () => {
 		try {
@@ -79,7 +79,7 @@
 		}
 	};
 
-	onMount(getAuthors);
+	// onMount(getAuthors);
 
 	const getWorks = async () => {
 		try {
@@ -139,7 +139,7 @@
 		}
 	};
 
-	onMount(getWorks);
+	// onMount(getWorks);
 
 	const getSources = async () => {
 		try {
@@ -155,7 +155,7 @@
 		}
 	};
 
-	onMount(getSources);
+	// onMount(getSources);
 
 	const getPublished = async () => {
 		try {
@@ -171,7 +171,7 @@
 		}
 	};
 
-	onMount(getPublished);
+	// onMount(getPublished);
 
 	const getTypes = async () => {
 		try {
@@ -187,7 +187,7 @@
 		}
 	};
 
-	onMount(getTypes);
+	// onMount(getTypes);
 
 	const getStatuses = async () => {
 		try {
@@ -203,7 +203,7 @@
 		}
 	};
 
-	onMount(getStatuses);
+	// onMount(getStatuses);
 
 	let today = new Date();
 	let yyyy = today.getFullYear();
@@ -280,9 +280,7 @@
 		}
 	};
 
-	export { fetchData };
-
-	onMount(fetchData);
+	// onMount(fetchData);
 
 	async function nextPage() {
 		if (next) {
