@@ -66,7 +66,7 @@
 
 	const fetchAuthors = async () => {
 		try {
-			let api = `https://api.openalex.org/authors?cursor=${cursor || '*'}&per-page=${pageSize}&sort=works_count:desc&search=${searchTerm}&filter=works_count:>0`;
+			let api = `https://api.openalex.org/authors?cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=works_count:>0`;
 
 			if (authorId.trim() !== '') {
 				api += `,ids.openalex:${encodeURIComponent(authorId.trim())}`;
@@ -1067,7 +1067,7 @@
 																		Author
 																	</p>
 																</Sheet.Description>
-																<div style="display:inline-flex; ">
+																<div style="display:inline-flex; " class="justify space-x-1">
 																	<div>
 																		<Button
 																			variant="default"
@@ -1084,7 +1084,7 @@
 																	</div>
 																	<div>
 																		<Button
-																			variant="ghost"
+																			variant="outline"
 																			size="sm"
 																			class="text text-md font-mono font-semibold"
 																			href="https://api.openalex.org/{work.id.substring(
@@ -1098,7 +1098,7 @@
 																	</div>
 																	<div>
 																		<Button
-																			variant="ghost"
+																			variant="outline"
 																			size="sm"
 																			class="text text-md"
 																			href={work.id}
@@ -1126,7 +1126,7 @@
 																			<Button style="visibility: hidden"></Button>
 																		{:else}
 																			<Button
-																				variant="ghost"
+																				variant="outline"
 																				size="sm"
 																				class="text text-md"
 																				href={work.orcid}

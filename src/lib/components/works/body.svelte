@@ -7,6 +7,7 @@
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import * as Accordion from '$lib/components/ui/accordion';
+	import { toast } from 'svelte-sonner';
 
 	let items: any[] = [];
 	const pageSize = 25;
@@ -205,17 +206,40 @@
 
 	// onMount(getStatuses);
 
+	let citations: any[] = [];
+
+	const getCitations = async (string: string) => {
+		try {
+			let api = `https://api.citeas.org/product/` + string;
+
+			console.log(api);
+			const response = await axios.get(api);
+			citations = response.data.citations;
+			console.log('getCitations successful');
+			console.log(citations[0].citation);
+			navigator.clipboard.writeText(citations[0].citation);
+
+			toast.success('Citation copied', {
+				description: citations[0].citation
+				// action: {
+				// 	label: 'Undo',
+				// 	onClick: () => console.info('Undo')
+				// }
+			});
+		} catch (error: any) {
+			console.error('There was a problem with getCitations:', error.message);
+		}
+	};
+
 	let today = new Date();
 	let yyyy = today.getFullYear();
 	let nxtYr = 0;
-	let sort = 'cited_by_count';
-	let order = 'desc';
 
 	nxtYr = yyyy += 5;
 
 	const fetchData = async () => {
 		try {
-			let api = `https://api.openalex.org/works?cursor=${cursor || '*'}&per-page=${pageSize}&sort=${sort}:${order}&search=${searchTerm}&filter=publication_year:<${nxtYr}`;
+			let api = `https://api.openalex.org/works?cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=publication_year:<${nxtYr}`;
 
 			if (authorId.trim() !== '') {
 				api += `,authorships.author.id:${encodeURIComponent(authorId.trim())}`;
@@ -768,7 +792,7 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline">
+														<Button size="sm" variant="outline" on:click={autocompleteAuthor}>
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -967,7 +991,7 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline">
+														<Button size="sm" variant="outline" on:click={getPublished}>
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -1139,7 +1163,7 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline">
+														<Button size="sm" variant="outline" on:click={autocompleteSource}>
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -1308,7 +1332,7 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline">
+														<Button size="sm" variant="outline" on:click={getTypes}>
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -1477,7 +1501,7 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline">
+														<Button size="sm" variant="outline" on:click={getStatuses}>
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -2497,7 +2521,7 @@
 																		{work.type}
 																	</Button>
 																</Sheet.Description>
-																<div style="display:inline-flex; ">
+																<div style="display:inline-flex; " class="justify space-x-1">
 																	<div>
 																		{#if work.open_access.oa_status == 'closed'}
 																			<Button
@@ -2555,7 +2579,7 @@
 																		{#if work.primary_location.pdf_url !== null}
 																			<div>
 																				<Button
-																					variant="ghost"
+																					variant="secondary"
 																					size="sm"
 																					class="text text-md"
 																					href={work.primary_location.pdf_url}
@@ -2585,9 +2609,40 @@
 																	{:else}
 																		<div></div>
 																	{/if}
+																	{#if work.doi !== null}
+																		<div>
+																			<Button
+																				variant="outline"
+																				size="sm"
+																				class="text text-md"
+																				on:click={() => getCitations(work.doi)}
+																			>
+																				<!-- href="https://api.citeas.org/product/{work.doi}"
+																			target="_blank"
+																			rel="noreferrer noopenner" -->
+																				Cite
+																				<svg
+																					class="margin ml-2"
+																					width="15"
+																					height="15"
+																					viewBox="0 0 15 15"
+																					fill="none"
+																					xmlns="http://www.w3.org/2000/svg"
+																					><path
+																						d="M5 2V1H10V2H5ZM4.75 0C4.33579 0 4 0.335786 4 0.75V1H3.5C2.67157 1 2 1.67157 2 2.5V12.5C2 13.3284 2.67157 14 3.5 14H7V13H3.5C3.22386 13 3 12.7761 3 12.5V2.5C3 2.22386 3.22386 2 3.5 2H4V2.25C4 2.66421 4.33579 3 4.75 3H10.25C10.6642 3 11 2.66421 11 2.25V2H11.5C11.7761 2 12 2.22386 12 2.5V7H13V2.5C13 1.67157 12.3284 1 11.5 1H11V0.75C11 0.335786 10.6642 0 10.25 0H4.75ZM9 8.5C9 8.77614 8.77614 9 8.5 9C8.22386 9 8 8.77614 8 8.5C8 8.22386 8.22386 8 8.5 8C8.77614 8 9 8.22386 9 8.5ZM10.5 9C10.7761 9 11 8.77614 11 8.5C11 8.22386 10.7761 8 10.5 8C10.2239 8 10 8.22386 10 8.5C10 8.77614 10.2239 9 10.5 9ZM13 8.5C13 8.77614 12.7761 9 12.5 9C12.2239 9 12 8.77614 12 8.5C12 8.22386 12.2239 8 12.5 8C12.7761 8 13 8.22386 13 8.5ZM14.5 9C14.7761 9 15 8.77614 15 8.5C15 8.22386 14.7761 8 14.5 8C14.2239 8 14 8.22386 14 8.5C14 8.77614 14.2239 9 14.5 9ZM15 10.5C15 10.7761 14.7761 11 14.5 11C14.2239 11 14 10.7761 14 10.5C14 10.2239 14.2239 10 14.5 10C14.7761 10 15 10.2239 15 10.5ZM14.5 13C14.7761 13 15 12.7761 15 12.5C15 12.2239 14.7761 12 14.5 12C14.2239 12 14 12.2239 14 12.5C14 12.7761 14.2239 13 14.5 13ZM14.5 15C14.7761 15 15 14.7761 15 14.5C15 14.2239 14.7761 14 14.5 14C14.2239 14 14 14.2239 14 14.5C14 14.7761 14.2239 15 14.5 15ZM8.5 11C8.77614 11 9 10.7761 9 10.5C9 10.2239 8.77614 10 8.5 10C8.22386 10 8 10.2239 8 10.5C8 10.7761 8.22386 11 8.5 11ZM9 12.5C9 12.7761 8.77614 13 8.5 13C8.22386 13 8 12.7761 8 12.5C8 12.2239 8.22386 12 8.5 12C8.77614 12 9 12.2239 9 12.5ZM8.5 15C8.77614 15 9 14.7761 9 14.5C9 14.2239 8.77614 14 8.5 14C8.22386 14 8 14.2239 8 14.5C8 14.7761 8.22386 15 8.5 15ZM11 14.5C11 14.7761 10.7761 15 10.5 15C10.2239 15 10 14.7761 10 14.5C10 14.2239 10.2239 14 10.5 14C10.7761 14 11 14.2239 11 14.5ZM12.5 15C12.7761 15 13 14.7761 13 14.5C13 14.2239 12.7761 14 12.5 14C12.2239 14 12 14.2239 12 14.5C12 14.7761 12.2239 15 12.5 15Z"
+																						fill="currentColor"
+																						fill-rule="evenodd"
+																						clip-rule="evenodd"
+																					></path></svg
+																				>
+																			</Button>
+																		</div>
+																	{:else}
+																		<div></div>
+																	{/if}
 																	<div>
 																		<Button
-																			variant="ghost"
+																			variant="outline"
 																			size="sm"
 																			class="text text-md font-mono font-semibold"
 																			href="https://api.openalex.org/{work.id.substring(
@@ -2603,17 +2658,24 @@
 															</Sheet.Header>
 															<div class="grid gap-4 py-4">
 																<div>
-																	<hr style="margin-bottom: .5rem" />
-																	<span style="font-weight: bold;"> Published: </span>
-																	{work.publication_date}
-																	<br />
+																	<!-- <hr style="margin-bottom: .5rem" /> -->
 																	{#if work.abstract_inverted_index !== null}
-																		<span class="font font-bold"> Abstract: </span>
-																		{generateParagraph(work.abstract_inverted_index)}
-																		<br />
+																		<Accordion.Root class="margin mb-4">
+																			<Accordion.Item value="item-1">
+																				<Accordion.Trigger>Abstract</Accordion.Trigger>
+																				<Accordion.Content>
+																					<!-- <span class="font font-bold"> Abstract: </span> -->
+																					{generateParagraph(work.abstract_inverted_index)}
+																				</Accordion.Content>
+																			</Accordion.Item>
+																		</Accordion.Root>
+																		<!-- <br /> -->
 																	{:else}
 																		<t class="text text-muted-foreground"></t>
 																	{/if}
+																	<span style="font-weight: bold;"> Published: </span>
+																	{work.publication_date}
+																	<br />
 																	{#if work.primary_location !== null}
 																		{#if work.primary_location.source !== null}
 																			<span style="font-weight: bold;"> Source: </span>
