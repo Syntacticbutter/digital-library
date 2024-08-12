@@ -99,7 +99,7 @@
 		}
 	};
 
-	// onMount(fetchAuthors);
+	onMount(fetchAuthors);
 
 	async function nextPage() {
 		if (next) {

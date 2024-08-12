@@ -280,7 +280,7 @@
 		}
 	};
 
-	// onMount(fetchData);
+	onMount(fetchData);
 
 	async function nextPage() {
 		if (next) {
