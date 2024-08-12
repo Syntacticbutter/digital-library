@@ -52,6 +52,10 @@ Work entries can be previewed.
 
 ![5](static/readme/5.png)
 
+Work citations can be copied.
+
+![citation](static/readme/citation.png)
+
 ## Authors
 
 ![14](static/readme/14.png)
