@@ -18,8 +18,8 @@
 
 	let autocomplete_authors: any[] = [];
 	let autocomplete_institute: any[] = [];
-	const cc = 'ID'; // Example country code
-	const id = 'i190243414'; // OpenAlex institution ID of President University (https://openalex.org/institutions/i190243414)
+	// const cc = 'ID'; // Example country code
+	// const id = 'i190243414'; // OpenAlex institution ID of President University (https://openalex.org/institutions/i190243414)
 
 	let searchTerm = '';
 	let authorId = '';
@@ -46,7 +46,7 @@
 		}
 	};
 
-	// onMount(getAuthors);
+	onMount(getAuthors);
 
 	const getInstitute = async () => {
 		try {
@@ -62,7 +62,7 @@
 		}
 	};
 
-	// onMount(getInstitute);
+	onMount(getInstitute);
 
 	const fetchAuthors = async () => {
 		try {
@@ -204,7 +204,7 @@
 							<Accordion.Root>
 								<Accordion.Item value="item-1">
 									<Accordion.Trigger>
-										{#if institutionId || authorId !== ''}
+										{#if institutionId || authorId || ORCID_iD !== ''}
 											Filters are applied
 										{:else}
 											<t class="text text-muted-foreground"> No filters applied </t>
@@ -332,12 +332,9 @@
 														aria-selected:bg-accent aria-selected:text-accent-foreground
 														data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																>
-																	<p
-																		style="display: inline-flex; align-items:center"
-																		class="text-sm dark:text-lime-400"
-																	>
+																	<p class="display align inline-flex items-center text-sm">
 																		<svg
-																			class="margin-right mr-2"
+																			class="margin-right mr-2 dark:text-lime-400"
 																			width="15"
 																			height="15"
 																			viewBox="0 0 15 15"
@@ -350,7 +347,7 @@
 																				clip-rule="evenodd"
 																			></path></svg
 																		>
-																		Filter active: {instituteName}
+																		{instituteName}
 																	</p>
 																</div>
 															{:else}
@@ -503,12 +500,9 @@
 														aria-selected:bg-accent aria-selected:text-accent-foreground
 														data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																>
-																	<p
-																		style="display: inline-flex; align-items:center"
-																		class="text-sm dark:text-lime-400"
-																	>
+																	<p class="display align inline-flex items-center text-sm">
 																		<svg
-																			class="margin-right mr-2"
+																			class="margin-right mr-2 dark:text-lime-400"
 																			width="15"
 																			height="15"
 																			viewBox="0 0 15 15"
@@ -521,7 +515,7 @@
 																				clip-rule="evenodd"
 																			></path></svg
 																		>
-																		Filter active: {authorName}
+																		{authorName}
 																	</p>
 																</div>
 															{:else}

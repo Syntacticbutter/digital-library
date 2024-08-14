@@ -4,7 +4,7 @@
 	import Socials from './socials.svelte';
 </script>
 
-<div class="container flex h-14 max-w-screen-2xl items-center">
+<div class="font container flex h-14 max-w-screen-2xl items-center font-sans">
 	<div class="mr-4 hidden md:flex">
 		<Home></Home>
 		<NavItem></NavItem>

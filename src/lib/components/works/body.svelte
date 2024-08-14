@@ -18,19 +18,24 @@
 	let cursorHistory: string[] = [];
 
 	let autocomplete_institute: any[] = [];
-	const cc = 'ID'; // Example country code
+	// const cc = 'ID'; // Example country code
 
 	let autocomplete_works: any[] = [];
-	const ror = '04w4pwd42'; // Research Organization Registry ID of President University (https://ror.org/04w4pwd42)
+	// const ror = '04w4pwd42'; // Research Organization Registry ID of President University (https://ror.org/04w4pwd42)
 
 	let autocomplete_authors: any[] = [];
-	const id = 'i190243414'; // OpenAlex institution ID of President University (https://openalex.org/institutions/i190243414)
+	// const id = 'i190243414'; // OpenAlex institution ID of President University (https://openalex.org/institutions/i190243414)
 
 	let autocomplete_sources: any[] = [];
 
 	let list_published: any[] = [];
 	let list_statuses: any[] = [];
 	let list_types: any[] = [];
+
+	// let topics: any[] = [];
+	// let subfields: any[] = [];
+	let fields: any[] = [];
+	let domains: any[] = [];
 
 	let searchTerm = '';
 	let workId = '';
@@ -45,6 +50,15 @@
 	let institutionId = '';
 	let instituteName = '';
 	let fulltext = '';
+
+	let topicId = '';
+	let topic = '';
+	let subfieldId = '';
+	let subfield = '';
+	let fieldId = '';
+	let field = '';
+	let domainId = '';
+	let domain = '';
 
 	let citedBy = '';
 	let cites = '';
@@ -64,7 +78,7 @@
 		}
 	};
 
-	// onMount(getInstitute);
+	onMount(getInstitute);
 
 	const getAuthors = async () => {
 		try {
@@ -80,7 +94,7 @@
 		}
 	};
 
-	// onMount(getAuthors);
+	onMount(getAuthors);
 
 	const getWorks = async () => {
 		try {
@@ -126,6 +140,22 @@
 				api += `,related_to:${encodeURIComponent(related)}`;
 			}
 
+			if (topicId !== '') {
+				api += `,primary_topic.id:${encodeURIComponent(topicId)}`;
+			}
+
+			if (subfieldId !== '') {
+				api += `,primary_topic.subfield.id:${encodeURIComponent(subfieldId)}`;
+			}
+
+			if (fieldId !== '') {
+				api += `,primary_topic.field.id:${encodeURIComponent(fieldId)}`;
+			}
+
+			if (domainId !== '') {
+				api += `,primary_topic.domain.id:${encodeURIComponent(domainId)}`;
+			}
+
 			if (fulltext !== '') {
 				api += `,has_fulltext:${fulltext}`;
 			}
@@ -140,7 +170,7 @@
 		}
 	};
 
-	// onMount(getWorks);
+	onMount(getWorks);
 
 	const getSources = async () => {
 		try {
@@ -156,7 +186,7 @@
 		}
 	};
 
-	// onMount(getSources);
+	onMount(getSources);
 
 	const getPublished = async () => {
 		try {
@@ -172,7 +202,7 @@
 		}
 	};
 
-	// onMount(getPublished);
+	onMount(getPublished);
 
 	const getTypes = async () => {
 		try {
@@ -188,7 +218,7 @@
 		}
 	};
 
-	// onMount(getTypes);
+	onMount(getTypes);
 
 	const getStatuses = async () => {
 		try {
@@ -204,7 +234,63 @@
 		}
 	};
 
-	// onMount(getStatuses);
+	onMount(getStatuses);
+
+	// const getTopics = async () => {
+	// 	try {
+	// 		let api = `https://api.openalex.org/works?group_by=primary_topic.id`;
+
+	// 		console.log(api);
+	// 		const response = await axios.get(api);
+	// 		topics = response.data.group_by;
+	// 		console.log('getTopics successful', topics);
+	// 		console.log(response.data);
+	// 	} catch (error: any) {
+	// 		console.error('There was a problem with getTopics:', error.message);
+	// 	}
+	// };
+
+	// const getSubfields = async () => {
+	// 	try {
+	// 		let api = `https://api.openalex.org/works?group_by=primary_topic.subfield.id`;
+
+	// 		console.log(api);
+	// 		const response = await axios.get(api);
+	// 		subfields = response.data.group_by;
+	// 		console.log('getSubfields successful', subfields);
+	// 		console.log(response.data);
+	// 	} catch (error: any) {
+	// 		console.error('There was a problem with getSubfields:', error.message);
+	// 	}
+	// };
+
+	const getFields = async () => {
+		try {
+			let api = `https://api.openalex.org/works?group_by=primary_topic.field.id`;
+
+			console.log(api);
+			const response = await axios.get(api);
+			fields = response.data.group_by;
+			console.log('getFields successful', fields);
+			console.log(response.data);
+		} catch (error: any) {
+			console.error('There was a problem with getFields:', error.message);
+		}
+	};
+
+	const getDomains = async () => {
+		try {
+			let api = `https://api.openalex.org/works?group_by=primary_topic.domain.id`;
+
+			console.log(api);
+			const response = await axios.get(api);
+			domains = response.data.group_by;
+			console.log('getDomains successful', domains);
+			console.log(response.data);
+		} catch (error: any) {
+			console.error('There was a problem with getDomains:', error.message);
+		}
+	};
 
 	let citations: any[] = [];
 
@@ -279,6 +365,22 @@
 
 			if (related !== '') {
 				api += `,related_to:${encodeURIComponent(related)}`;
+			}
+
+			if (topicId !== '') {
+				api += `,primary_topic.id:${encodeURIComponent(topicId)}`;
+			}
+
+			if (subfieldId !== '') {
+				api += `,primary_topic.subfield.id:${encodeURIComponent(subfieldId)}`;
+			}
+
+			if (fieldId !== '') {
+				api += `,primary_topic.field.id:${encodeURIComponent(fieldId)}`;
+			}
+
+			if (domainId !== '') {
+				api += `,primary_topic.domain.id:${encodeURIComponent(domainId)}`;
 			}
 
 			if (fulltext !== '') {
@@ -367,6 +469,14 @@
 		citedBy = '';
 		cites = '';
 		related = '';
+		topicId = '';
+		topic = '';
+		subfieldId = '';
+		subfield = '';
+		fieldId = '';
+		field = '';
+		domainId = '';
+		domain = '';
 		fulltext = '';
 		fetchData();
 	}
@@ -416,6 +526,30 @@
 	function clearStatus() {
 		cursor = '*';
 		statusName = '';
+		fetchData();
+	}
+
+	function clearTopic() {
+		cursor = '*';
+		topicId = '';
+		fetchData();
+	}
+
+	function clearSubfield() {
+		cursor = '*';
+		subfieldId = '';
+		fetchData();
+	}
+
+	function clearField() {
+		cursor = '*';
+		fieldId = '';
+		fetchData();
+	}
+
+	function clearDomain() {
+		cursor = '*';
+		domainId = '';
 		fetchData();
 	}
 
@@ -488,6 +622,38 @@
 		cursor = '*';
 		statusName = string;
 		console.log(statusName);
+		fetchData();
+	}
+
+	function setTopic(id: string, string: string) {
+		cursor = '*';
+		topicId = id;
+		topic = string;
+		console.log(topicId);
+		fetchData();
+	}
+
+	function setSubfield(id: string, string: string) {
+		cursor = '*';
+		subfieldId = id;
+		subfield = string;
+		console.log(subfieldId);
+		fetchData();
+	}
+
+	function setField(id: string, string: string) {
+		cursor = '*';
+		fieldId = id;
+		field = string;
+		console.log(fieldId);
+		fetchData();
+	}
+
+	function setDomain(id: string, string: string) {
+		cursor = '*';
+		domainId = id;
+		domain = string;
+		console.log(domainId);
 		fetchData();
 	}
 
@@ -580,7 +746,7 @@
 							<Accordion.Root>
 								<Accordion.Item value="item-1">
 									<Accordion.Trigger>
-										{#if institutionId || authorId || pubYear || workType || statusName || sourceId || citedBy || cites || related || fulltext !== ''}
+										{#if institutionId || authorId || pubYear || workType || statusName || sourceId || citedBy || cites || related || topicId || subfieldId || fieldId || domainId || fulltext || workId !== ''}
 											Filters are applied
 										{:else}
 											<t class="text text-muted-foreground"> No filters applied </t>
@@ -591,7 +757,8 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline" on:click={autocompleteInstitute}>
+														<!-- <Button size="sm" variant="outline" on:click={autocompleteInstitute}> -->
+														<Button size="sm" variant="outline">
 															<svg
 																xmlns="http://www.w3.org/2000/svg"
 																width="16"
@@ -631,7 +798,7 @@
 																	type="text"
 																	bind:value={instituteName}
 																	on:input={autocompleteInstitute}
-																	placeholder="Type institution name"
+																	placeholder="Search institution"
 																/>
 															</div>
 															<div
@@ -731,16 +898,13 @@
 																<div
 																	class="
 													padding relative flex cursor-default select-none items-center
-													rounded-sm p-2 text-sm outline-none hover:text-blue-500
+													rounded-sm p-2 text-sm outline-none
 													aria-selected:bg-accent aria-selected:text-accent-foreground
 													data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																>
-																	<p
-																		style="display: inline-flex; align-items:center"
-																		class="text-sm dark:text-lime-400"
-																	>
+																	<p class="display align inline-flex items-center text-sm">
 																		<svg
-																			class="margin-right mr-2"
+																			class="margin-right mr-2 dark:text-lime-400"
 																			width="15"
 																			height="15"
 																			viewBox="0 0 15 15"
@@ -753,7 +917,7 @@
 																				clip-rule="evenodd"
 																			></path></svg
 																		>
-																		Filter active: {instituteName}
+																		{instituteName}
 																	</p>
 																</div>
 															{:else}
@@ -792,7 +956,8 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline" on:click={autocompleteAuthor}>
+														<!-- <Button size="sm" variant="outline" on:click={autocompleteAuthor}> -->
+														<Button size="sm" variant="outline">
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -829,7 +994,7 @@
 																	type="text"
 																	bind:value={authorName}
 																	on:input={autocompleteAuthor}
-																	placeholder="Type author name"
+																	placeholder="Search author"
 																/>
 															</div>
 															<div
@@ -930,16 +1095,13 @@
 																<div
 																	class="
 													padding relative flex cursor-default select-none items-center
-													rounded-sm p-2 text-sm outline-none hover:text-blue-500
+													rounded-sm p-2 text-sm outline-none
 													aria-selected:bg-accent aria-selected:text-accent-foreground
 													data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																>
-																	<p
-																		style="display: inline-flex; align-items:center"
-																		class="text-sm dark:text-lime-400"
-																	>
+																	<p class="display align inline-flex items-center text-sm">
 																		<svg
-																			class="margin-right mr-2"
+																			class="margin-right mr-2 dark:text-lime-400"
 																			width="15"
 																			height="15"
 																			viewBox="0 0 15 15"
@@ -952,7 +1114,7 @@
 																				clip-rule="evenodd"
 																			></path></svg
 																		>
-																		Filter active: {authorName}
+																		{authorName}
 																	</p>
 																</div>
 															{:else}
@@ -991,7 +1153,8 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline" on:click={getPublished}>
+														<!-- <Button size="sm" variant="outline" on:click={getPublished}> -->
+														<Button size="sm" variant="outline">
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -1010,37 +1173,7 @@
 													</Dialog.Trigger>
 													<Dialog.Content class="padding p-0">
 														<Command.Root>
-															<Command.Input placeholder="Type publication year" />
-															<div
-																class="
-											padding relative flex cursor-default select-none items-center
-											rounded-sm p-2 text-sm outline-none hover:text-blue-500
-											aria-selected:bg-accent aria-selected:text-accent-foreground
-											data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-															>
-																<p
-																	style="display: inline-flex; align-items:center"
-																	class="text-sm text-orange-700 dark:text-orange-400"
-																>
-																	<svg
-																		class="margin-right mr-2"
-																		width="15"
-																		height="15"
-																		viewBox="0 0 15 15"
-																		fill="none"
-																		xmlns="http://www.w3.org/2000/svg"
-																		><path
-																			d="M7.49991 0.876892C3.84222 0.876892 0.877075 3.84204 0.877075 7.49972C0.877075 11.1574 3.84222 14.1226 7.49991 14.1226C11.1576 14.1226 14.1227 11.1574 14.1227 7.49972C14.1227 3.84204 11.1576 0.876892 7.49991 0.876892ZM1.82707 7.49972C1.82707 4.36671 4.36689 1.82689 7.49991 1.82689C10.6329 1.82689 13.1727 4.36671 13.1727 7.49972C13.1727 10.6327 10.6329 13.1726 7.49991 13.1726C4.36689 13.1726 1.82707 10.6327 1.82707 7.49972ZM8.24992 4.49999C8.24992 4.9142 7.91413 5.24999 7.49992 5.24999C7.08571 5.24999 6.74992 4.9142 6.74992 4.49999C6.74992 4.08577 7.08571 3.74999 7.49992 3.74999C7.91413 3.74999 8.24992 4.08577 8.24992 4.49999ZM6.00003 5.99999H6.50003H7.50003C7.77618 5.99999 8.00003 6.22384 8.00003 6.49999V9.99999H8.50003H9.00003V11H8.50003H7.50003H6.50003H6.00003V9.99999H6.50003H7.00003V6.99999H6.50003H6.00003V5.99999Z"
-																			fill="currentColor"
-																			fill-rule="evenodd"
-																			clip-rule="evenodd"
-																		></path></svg
-																	>
-																	Works count assumes other filters are inactive
-																</p>
-															</div>
-															<Command.Separator />
-
+															<Command.Input placeholder="Search publication year" />
 															{#if pubYear !== ''}
 																<Command.Group heading="Actions">
 																	<Command.Item>
@@ -1075,22 +1208,33 @@
 																<Command.Group heading="Publication Year">
 																	<Command.Empty>No results found.</Command.Empty>
 																	{#each list_published as published}
-																		<!-- {#if published.count < 1 || published.key_display_name > yyyy} -->
 																		{#if published.count < 1}
 																			<div></div>
+																		{:else if published.count > 0 && pubYear == published.key_display_name}
+																			<Command.Item>
+																				<button
+																					class="text padding p-.5 text justify cursor-default select-none
+																				justify-items-start rounded-sm text-left text-sm text-muted-foreground
+																				outline-none aria-selected:bg-accent aria-selected:text-accent-foreground
+																				data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																					on:click={clearPublished}
+																				>
+																					<t class="text overflow-auto whitespace-normal text-left">
+																						{published.key_display_name}
+																						<!-- <br />
+																						<span class="text text-xs">{published.count} works</span> -->
+																					</t>
+																				</button>
+																			</Command.Item>
 																		{:else}
 																			<Command.Item>
-																				<!-- class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50" -->
 																				<button
 																					class="padding p-.5 text justify cursor-default select-none justify-items-start rounded-sm text-left text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																					on:click={() => setPubYear(published.key_display_name)}
 																				>
-																					<!-- <t class="text overflow-auto whitespace-normal text-left">
-																						{published.key_display_name}
-																						({published.count})
-																						</t> -->
-																					{published.key_display_name} <br />
-																					<span class="text text-xs">{published.count} works</span>
+																					{published.key_display_name}
+																					<!-- <br />
+																					<span class="text text-xs">{published.count} works</span> -->
 																				</button>
 																			</Command.Item>
 																		{/if}
@@ -1102,16 +1246,13 @@
 																<div
 																	class="
 														padding relative flex cursor-default select-none items-center
-														rounded-sm p-2 text-sm outline-none hover:text-blue-500
+														rounded-sm p-2 text-sm outline-none
 														aria-selected:bg-accent aria-selected:text-accent-foreground
 														data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																>
-																	<p
-																		style="display: inline-flex; align-items:center"
-																		class="text-sm dark:text-lime-400"
-																	>
+																	<p class="display align inline-flex items-center text-sm">
 																		<svg
-																			class="margin-right mr-2"
+																			class="margin-right mr-2 dark:text-lime-400"
 																			width="15"
 																			height="15"
 																			viewBox="0 0 15 15"
@@ -1124,7 +1265,7 @@
 																				clip-rule="evenodd"
 																			></path></svg
 																		>
-																		Filter active: {pubYear}
+																		{pubYear}
 																	</p>
 																</div>
 															{:else}
@@ -1163,7 +1304,8 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline" on:click={autocompleteSource}>
+														<!-- <Button size="sm" variant="outline" on:click={autocompleteSource}> -->
+														<Button size="sm" variant="outline">
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -1200,7 +1342,7 @@
 																	type="text"
 																	bind:value={sourceName}
 																	on:input={autocompleteSource}
-																	placeholder="Type source name"
+																	placeholder="Search source"
 																/>
 															</div>
 															{#if sourceId !== ''}
@@ -1270,16 +1412,13 @@
 																<div
 																	class="
 																padding relative flex cursor-default select-none items-center
-																rounded-sm p-2 text-sm outline-none hover:text-blue-500
+																rounded-sm p-2 text-sm outline-none
 																aria-selected:bg-accent aria-selected:text-accent-foreground
 																data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																>
-																	<p
-																		style="display: inline-flex; align-items:center"
-																		class="text-sm dark:text-lime-400"
-																	>
+																	<p class="display align inline-flex items-center text-sm">
 																		<svg
-																			class="margin-right mr-2"
+																			class="margin-right mr-2 dark:text-lime-400"
 																			width="15"
 																			height="15"
 																			viewBox="0 0 15 15"
@@ -1292,7 +1431,7 @@
 																				clip-rule="evenodd"
 																			></path></svg
 																		>
-																		Filter active: openalex.org/{sourceId}
+																		openalex.org/sources/{sourceId}
 																	</p>
 																</div>
 															{:else}
@@ -1332,7 +1471,8 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline" on:click={getTypes}>
+														<!-- <Button size="sm" variant="outline" on:click={getTypes}> -->
+														<Button size="sm" variant="outline">
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -1355,7 +1495,7 @@
 															<div
 																class="
 												padding relative flex cursor-default select-none items-center
-												rounded-sm p-2 text-sm outline-none hover:text-blue-500
+												rounded-sm p-2 text-sm outline-none
 												aria-selected:bg-accent aria-selected:text-accent-foreground
 												data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 															>
@@ -1377,7 +1517,7 @@
 																			clip-rule="evenodd"
 																		></path></svg
 																	>
-																	Work types count assumes other filters are inactive
+																	Works count assumes other filters are inactive
 																</p>
 															</div>
 															<Command.Separator />
@@ -1417,13 +1557,28 @@
 																	{#each list_types as type}
 																		{#if type.count < 1}
 																			<div></div>
+																		{:else if type.count > 0 && workType == type.key_display_name}
+																			<Command.Item>
+																				<button
+																					class="text padding p-.5 text justify cursor-default select-none
+																				justify-items-start rounded-sm text-left text-sm text-muted-foreground
+																				outline-none aria-selected:bg-accent aria-selected:text-accent-foreground
+																				data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																					on:click={clearType}
+																				>
+																					<t class="text overflow-auto whitespace-normal text-left">
+																						{type.key_display_name} <br /><span class="text text-xs"
+																							>{type.count} works
+																						</span>
+																					</t>
+																				</button>
+																			</Command.Item>
 																		{:else}
 																			<Command.Item>
 																				<button
 																					class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																					on:click={() => setWorkType(type.key_display_name)}
 																				>
-																					<!-- setWorkType(type.key_display_name)} -->
 																					<t class="text overflow-auto whitespace-normal text-left">
 																						{type.key_display_name} <br /><span class="text text-xs"
 																							>{type.count} works
@@ -1440,16 +1595,13 @@
 																<div
 																	class="
 												padding relative flex cursor-default select-none items-center
-												rounded-sm p-2 text-sm outline-none hover:text-blue-500
+												rounded-sm p-2 text-sm outline-none
 												aria-selected:bg-accent aria-selected:text-accent-foreground
 												data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																>
-																	<p
-																		style="display: inline-flex; align-items:center"
-																		class="text-sm dark:text-lime-400"
-																	>
+																	<p class="display align inline-flex items-center text-sm">
 																		<svg
-																			class="margin-right mr-2"
+																			class="margin-right mr-2 dark:text-lime-400"
 																			width="15"
 																			height="15"
 																			viewBox="0 0 15 15"
@@ -1462,7 +1614,7 @@
 																				clip-rule="evenodd"
 																			></path></svg
 																		>
-																		Filter active: {workType}
+																		{workType}
 																	</p>
 																</div>
 															{:else}
@@ -1497,11 +1649,13 @@
 												<div></div>
 											{/if}
 										</div>
+
 										<div class="flex items-center pb-4">
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<Button size="sm" variant="outline" on:click={getStatuses}>
+														<!-- <Button size="sm" variant="outline" on:click={getStatuses}> -->
+														<Button size="sm" variant="outline">
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -1520,11 +1674,11 @@
 													</Dialog.Trigger>
 													<Dialog.Content class="padding p-0">
 														<Command.Root>
-															<Command.Input placeholder="Type access status" />
+															<Command.Input placeholder="Search access status" />
 															<div
 																class="
 												padding relative flex cursor-default select-none items-center
-												rounded-sm p-2 text-sm outline-none hover:text-blue-500
+												rounded-sm p-2 text-sm outline-none
 												aria-selected:bg-accent aria-selected:text-accent-foreground
 												data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 															>
@@ -1546,7 +1700,7 @@
 																			clip-rule="evenodd"
 																		></path></svg
 																	>
-																	Access status count assumes other filters are inactive
+																	Works count assumes other filters are inactive
 																</p>
 															</div>
 															<Command.Separator />
@@ -1580,13 +1734,29 @@
 															{:else}
 																<div></div>
 															{/if}
-
 															<Command.List>
 																<Command.Group heading="Access Status">
 																	<Command.Empty>No results found.</Command.Empty>
 																	{#each list_statuses as status}
 																		{#if status.count < 1}
 																			<div></div>
+																		{:else if status.count > 0 && statusName == status.key_display_name}
+																			<Command.Item>
+																				<button
+																					class="text padding p-.5 text justify cursor-default select-none
+																				justify-items-start rounded-sm text-left text-sm text-muted-foreground
+																				outline-none aria-selected:bg-accent aria-selected:text-accent-foreground
+																				data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																					on:click={clearStatus}
+																				>
+																					<t class="text overflow-auto whitespace-normal text-left">
+																						{status.key_display_name} <br /><span
+																							class="text text-xs"
+																							>{status.count} works
+																						</span>
+																					</t>
+																				</button>
+																			</Command.Item>
 																		{:else}
 																			<Command.Item>
 																				<button
@@ -1610,16 +1780,13 @@
 																<div
 																	class="
 													padding relative flex cursor-default select-none items-center
-													rounded-sm p-2 text-sm outline-none hover:text-blue-500
+													rounded-sm p-2 text-sm outline-none
 													aria-selected:bg-accent aria-selected:text-accent-foreground
 													data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 																>
-																	<p
-																		style="display: inline-flex; align-items:center"
-																		class="text-sm dark:text-lime-400"
-																	>
+																	<p class="display align inline-flex items-center text-sm">
 																		<svg
-																			class="margin-right mr-2"
+																			class="margin-right mr-2 dark:text-lime-400"
 																			width="15"
 																			height="15"
 																			viewBox="0 0 15 15"
@@ -1632,7 +1799,7 @@
 																				clip-rule="evenodd"
 																			></path></svg
 																		>
-																		Filter active: {statusName}
+																		{statusName}
 																	</p>
 																</div>
 															{:else}
@@ -1667,6 +1834,427 @@
 												<div></div>
 											{/if}
 										</div>
+
+										<div class="flex items-center pb-4">
+											<Dialog.Root>
+												<div class="w-full flex-1 md:w-auto md:flex-none">
+													<Dialog.Trigger>
+														<Button size="sm" variant="outline" on:click={getDomains}>
+															Domain
+														</Button>
+													</Dialog.Trigger>
+													<Dialog.Content class="padding p-0">
+														<Command.Root>
+															<Command.Input placeholder="Search domain" />
+															<div
+																class="
+												padding relative flex cursor-default select-none items-center
+												rounded-sm p-2 text-sm outline-none
+												aria-selected:bg-accent aria-selected:text-accent-foreground
+												data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+															>
+																<p
+																	style="display: inline-flex; align-items:center"
+																	class="text-sm text-orange-700 dark:text-orange-400"
+																>
+																	<svg
+																		class="margin-right mr-2"
+																		width="15"
+																		height="15"
+																		viewBox="0 0 15 15"
+																		fill="none"
+																		xmlns="http://www.w3.org/2000/svg"
+																		><path
+																			d="M7.49991 0.876892C3.84222 0.876892 0.877075 3.84204 0.877075 7.49972C0.877075 11.1574 3.84222 14.1226 7.49991 14.1226C11.1576 14.1226 14.1227 11.1574 14.1227 7.49972C14.1227 3.84204 11.1576 0.876892 7.49991 0.876892ZM1.82707 7.49972C1.82707 4.36671 4.36689 1.82689 7.49991 1.82689C10.6329 1.82689 13.1727 4.36671 13.1727 7.49972C13.1727 10.6327 10.6329 13.1726 7.49991 13.1726C4.36689 13.1726 1.82707 10.6327 1.82707 7.49972ZM8.24992 4.49999C8.24992 4.9142 7.91413 5.24999 7.49992 5.24999C7.08571 5.24999 6.74992 4.9142 6.74992 4.49999C6.74992 4.08577 7.08571 3.74999 7.49992 3.74999C7.91413 3.74999 8.24992 4.08577 8.24992 4.49999ZM6.00003 5.99999H6.50003H7.50003C7.77618 5.99999 8.00003 6.22384 8.00003 6.49999V9.99999H8.50003H9.00003V11H8.50003H7.50003H6.50003H6.00003V9.99999H6.50003H7.00003V6.99999H6.50003H6.00003V5.99999Z"
+																			fill="currentColor"
+																			fill-rule="evenodd"
+																			clip-rule="evenodd"
+																		></path></svg
+																	>
+																	Works count assumes other filters are inactive
+																</p>
+															</div>
+															<Command.Separator />
+															{#if domainId !== ''}
+																<Command.Group heading="Actions">
+																	<Command.Item>
+																		<button
+																			class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																			on:click={clearDomain}
+																		>
+																			<p style="display: inline-flex; align-items:center">
+																				<svg
+																					class="margin-right mr-2"
+																					width="15"
+																					height="15"
+																					viewBox="0 0 15 15"
+																					fill="none"
+																					xmlns="http://www.w3.org/2000/svg"
+																					><path
+																						d="M4.85355 2.14645C5.04882 2.34171 5.04882 2.65829 4.85355 2.85355L3.70711 4H9C11.4853 4 13.5 6.01472 13.5 8.5C13.5 10.9853 11.4853 13 9 13H5C4.72386 13 4.5 12.7761 4.5 12.5C4.5 12.2239 4.72386 12 5 12H9C10.933 12 12.5 10.433 12.5 8.5C12.5 6.567 10.933 5 9 5H3.70711L4.85355 6.14645C5.04882 6.34171 5.04882 6.65829 4.85355 6.85355C4.65829 7.04882 4.34171 7.04882 4.14645 6.85355L2.14645 4.85355C1.95118 4.65829 1.95118 4.34171 2.14645 4.14645L4.14645 2.14645C4.34171 1.95118 4.65829 1.95118 4.85355 2.14645Z"
+																						fill="currentColor"
+																						fill-rule="evenodd"
+																						clip-rule="evenodd"
+																					></path></svg
+																				>
+																				Reset
+																			</p>
+																		</button>
+																	</Command.Item>
+																</Command.Group>
+															{:else}
+																<div></div>
+															{/if}
+															<Command.List>
+																<Command.Group heading="Domains">
+																	<Command.Empty>No results found.</Command.Empty>
+																	{#each domains as domain}
+																		{#if domain.count < 1}
+																			<div></div>
+																		{:else if domain.count > 0 && domainId == domain.key.substring('https://openalex.org/domains/'.length)}
+																			<Command.Item>
+																				<button
+																					class="text padding p-.5 text justify cursor-default select-none
+																				justify-items-start rounded-sm text-left text-sm text-muted-foreground
+																				outline-none aria-selected:bg-accent aria-selected:text-accent-foreground
+																				data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																					on:click={clearDomain}
+																				>
+																					<t class="text overflow-auto whitespace-normal text-left">
+																						{domain.key_display_name} <br /><span
+																							class="text text-xs"
+																							>{domain.count} works
+																						</span>
+																					</t>
+																				</button>
+																			</Command.Item>
+																		{:else}
+																			<Command.Item>
+																				<button
+																					class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																					on:click={() =>
+																						setDomain(
+																							domain.key.substring(
+																								'https://openalex.org/domains/'.length
+																							),
+																							domain.key_display_name
+																						)}
+																				>
+																					<t class="text overflow-auto whitespace-normal text-left">
+																						{domain.key_display_name} <br /><span
+																							class="text text-xs"
+																							>{domain.count} works
+																						</span>
+																					</t>
+																				</button>
+																			</Command.Item>
+																		{/if}
+																	{/each}
+																</Command.Group>
+																<Command.Separator />
+															</Command.List>
+															{#if domainId !== ''}
+																<div
+																	class="
+													padding relative flex cursor-default select-none items-center
+													rounded-sm p-2 text-sm outline-none
+													aria-selected:bg-accent aria-selected:text-accent-foreground
+													data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																>
+																	<p class="display align inline-flex items-center text-sm">
+																		<svg
+																			class="margin-right mr-2 dark:text-lime-400"
+																			width="15"
+																			height="15"
+																			viewBox="0 0 15 15"
+																			fill="none"
+																			xmlns="http://www.w3.org/2000/svg"
+																			><path
+																				d="M7.49991 0.877045C3.84222 0.877045 0.877075 3.84219 0.877075 7.49988C0.877075 11.1575 3.84222 14.1227 7.49991 14.1227C11.1576 14.1227 14.1227 11.1575 14.1227 7.49988C14.1227 3.84219 11.1576 0.877045 7.49991 0.877045ZM1.82708 7.49988C1.82708 4.36686 4.36689 1.82704 7.49991 1.82704C10.6329 1.82704 13.1727 4.36686 13.1727 7.49988C13.1727 10.6329 10.6329 13.1727 7.49991 13.1727C4.36689 13.1727 1.82708 10.6329 1.82708 7.49988ZM10.1589 5.53774C10.3178 5.31191 10.2636 5.00001 10.0378 4.84109C9.81194 4.68217 9.50004 4.73642 9.34112 4.96225L6.51977 8.97154L5.35681 7.78706C5.16334 7.59002 4.84677 7.58711 4.64973 7.78058C4.45268 7.97404 4.44978 8.29061 4.64325 8.48765L6.22658 10.1003C6.33054 10.2062 6.47617 10.2604 6.62407 10.2483C6.77197 10.2363 6.90686 10.1591 6.99226 10.0377L10.1589 5.53774Z"
+																				fill="currentColor"
+																				fill-rule="evenodd"
+																				clip-rule="evenodd"
+																			></path></svg
+																		>
+																		{domain}
+																	</p>
+																</div>
+															{:else}
+																<div></div>
+															{/if}
+														</Command.Root>
+													</Dialog.Content>
+												</div>
+											</Dialog.Root>
+											{#if domainId !== ''}
+												<Button
+													size="sm"
+													variant="ghost"
+													class="text text-md font-normal text-muted-foreground"
+													on:click={clearDomain}
+												>
+													{domain}
+													<svg
+														class="margin-left ml-2 h-[1.2rem] w-[1.2rem]"
+														viewBox="0 0 15 15"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+														><path
+															d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+															fill="currentColor"
+															fill-rule="evenodd"
+															clip-rule="evenodd"
+														></path></svg
+													>
+												</Button>
+											{:else}
+												<div></div>
+											{/if}
+										</div>
+
+										<div class="flex items-center pb-4">
+											<Dialog.Root>
+												<div class="w-full flex-1 md:w-auto md:flex-none">
+													<Dialog.Trigger>
+														<Button size="sm" variant="outline" on:click={getFields}>Field</Button>
+													</Dialog.Trigger>
+													<Dialog.Content class="padding p-0">
+														<Command.Root>
+															<Command.Input placeholder="Search field" />
+															<div
+																class="
+												padding relative flex cursor-default select-none items-center
+												rounded-sm p-2 text-sm outline-none
+												aria-selected:bg-accent aria-selected:text-accent-foreground
+												data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+															>
+																<p
+																	style="display: inline-flex; align-items:center"
+																	class="text-sm text-orange-700 dark:text-orange-400"
+																>
+																	<svg
+																		class="margin-right mr-2"
+																		width="15"
+																		height="15"
+																		viewBox="0 0 15 15"
+																		fill="none"
+																		xmlns="http://www.w3.org/2000/svg"
+																		><path
+																			d="M7.49991 0.876892C3.84222 0.876892 0.877075 3.84204 0.877075 7.49972C0.877075 11.1574 3.84222 14.1226 7.49991 14.1226C11.1576 14.1226 14.1227 11.1574 14.1227 7.49972C14.1227 3.84204 11.1576 0.876892 7.49991 0.876892ZM1.82707 7.49972C1.82707 4.36671 4.36689 1.82689 7.49991 1.82689C10.6329 1.82689 13.1727 4.36671 13.1727 7.49972C13.1727 10.6327 10.6329 13.1726 7.49991 13.1726C4.36689 13.1726 1.82707 10.6327 1.82707 7.49972ZM8.24992 4.49999C8.24992 4.9142 7.91413 5.24999 7.49992 5.24999C7.08571 5.24999 6.74992 4.9142 6.74992 4.49999C6.74992 4.08577 7.08571 3.74999 7.49992 3.74999C7.91413 3.74999 8.24992 4.08577 8.24992 4.49999ZM6.00003 5.99999H6.50003H7.50003C7.77618 5.99999 8.00003 6.22384 8.00003 6.49999V9.99999H8.50003H9.00003V11H8.50003H7.50003H6.50003H6.00003V9.99999H6.50003H7.00003V6.99999H6.50003H6.00003V5.99999Z"
+																			fill="currentColor"
+																			fill-rule="evenodd"
+																			clip-rule="evenodd"
+																		></path></svg
+																	>
+																	Works count assumes other filters are inactive
+																</p>
+															</div>
+															<Command.Separator />
+															{#if fieldId !== ''}
+																<Command.Group heading="Actions">
+																	<Command.Item>
+																		<button
+																			class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																			on:click={clearField}
+																		>
+																			<p style="display: inline-flex; align-items:center">
+																				<svg
+																					class="margin-right mr-2"
+																					width="15"
+																					height="15"
+																					viewBox="0 0 15 15"
+																					fill="none"
+																					xmlns="http://www.w3.org/2000/svg"
+																					><path
+																						d="M4.85355 2.14645C5.04882 2.34171 5.04882 2.65829 4.85355 2.85355L3.70711 4H9C11.4853 4 13.5 6.01472 13.5 8.5C13.5 10.9853 11.4853 13 9 13H5C4.72386 13 4.5 12.7761 4.5 12.5C4.5 12.2239 4.72386 12 5 12H9C10.933 12 12.5 10.433 12.5 8.5C12.5 6.567 10.933 5 9 5H3.70711L4.85355 6.14645C5.04882 6.34171 5.04882 6.65829 4.85355 6.85355C4.65829 7.04882 4.34171 7.04882 4.14645 6.85355L2.14645 4.85355C1.95118 4.65829 1.95118 4.34171 2.14645 4.14645L4.14645 2.14645C4.34171 1.95118 4.65829 1.95118 4.85355 2.14645Z"
+																						fill="currentColor"
+																						fill-rule="evenodd"
+																						clip-rule="evenodd"
+																					></path></svg
+																				>
+																				Reset
+																			</p>
+																		</button>
+																	</Command.Item>
+																</Command.Group>
+															{:else}
+																<div></div>
+															{/if}
+															<Command.List>
+																<Command.Group heading="Fields">
+																	<Command.Empty>No results found.</Command.Empty>
+																	{#each fields as field}
+																		{#if field.count < 1}
+																			<div></div>
+																		{:else if field.count > 0 && fieldId == field.key.substring('https://openalex.org/fields/'.length)}
+																			<Command.Item>
+																				<button
+																					class="text padding p-.5 text justify cursor-default select-none
+																				justify-items-start rounded-sm text-left text-sm text-muted-foreground
+																				outline-none aria-selected:bg-accent aria-selected:text-accent-foreground
+																				data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																					on:click={clearField}
+																				>
+																					<t class="text overflow-auto whitespace-normal text-left">
+																						{field.key_display_name} <br /><span
+																							class="text text-xs"
+																							>{field.count} works
+																						</span>
+																					</t>
+																				</button>
+																			</Command.Item>
+																		{:else}
+																			<Command.Item>
+																				<button
+																					class="padding p-.5 relative flex w-full cursor-default select-none items-center rounded-sm text-sm outline-none hover:text-blue-500 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																					on:click={() =>
+																						setField(
+																							field.key.substring(
+																								'https://openalex.org/fields/'.length
+																							),
+																							field.key_display_name
+																						)}
+																				>
+																					<t class="text overflow-auto whitespace-normal text-left">
+																						{field.key_display_name} <br /><span
+																							class="text text-xs"
+																							>{field.count} works
+																						</span>
+																					</t>
+																				</button>
+																			</Command.Item>
+																		{/if}
+																	{/each}
+																</Command.Group>
+																<Command.Separator />
+															</Command.List>
+															{#if fieldId !== ''}
+																<div
+																	class="
+													padding relative flex cursor-default select-none items-center
+													rounded-sm p-2 text-sm outline-none
+													aria-selected:bg-accent aria-selected:text-accent-foreground
+													data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+																>
+																	<p class="display align inline-flex items-center text-sm">
+																		<svg
+																			class="margin-right mr-2 dark:text-lime-400"
+																			width="15"
+																			height="15"
+																			viewBox="0 0 15 15"
+																			fill="none"
+																			xmlns="http://www.w3.org/2000/svg"
+																			><path
+																				d="M7.49991 0.877045C3.84222 0.877045 0.877075 3.84219 0.877075 7.49988C0.877075 11.1575 3.84222 14.1227 7.49991 14.1227C11.1576 14.1227 14.1227 11.1575 14.1227 7.49988C14.1227 3.84219 11.1576 0.877045 7.49991 0.877045ZM1.82708 7.49988C1.82708 4.36686 4.36689 1.82704 7.49991 1.82704C10.6329 1.82704 13.1727 4.36686 13.1727 7.49988C13.1727 10.6329 10.6329 13.1727 7.49991 13.1727C4.36689 13.1727 1.82708 10.6329 1.82708 7.49988ZM10.1589 5.53774C10.3178 5.31191 10.2636 5.00001 10.0378 4.84109C9.81194 4.68217 9.50004 4.73642 9.34112 4.96225L6.51977 8.97154L5.35681 7.78706C5.16334 7.59002 4.84677 7.58711 4.64973 7.78058C4.45268 7.97404 4.44978 8.29061 4.64325 8.48765L6.22658 10.1003C6.33054 10.2062 6.47617 10.2604 6.62407 10.2483C6.77197 10.2363 6.90686 10.1591 6.99226 10.0377L10.1589 5.53774Z"
+																				fill="currentColor"
+																				fill-rule="evenodd"
+																				clip-rule="evenodd"
+																			></path></svg
+																		>
+																		{field}
+																	</p>
+																</div>
+															{:else}
+																<div></div>
+															{/if}
+														</Command.Root>
+													</Dialog.Content>
+												</div>
+											</Dialog.Root>
+											{#if fieldId !== ''}
+												<Button
+													size="sm"
+													variant="ghost"
+													class="text text-md font-normal text-muted-foreground"
+													on:click={clearField}
+												>
+													{field}
+													<svg
+														class="margin-left ml-2 h-[1.2rem] w-[1.2rem]"
+														viewBox="0 0 15 15"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+														><path
+															d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+															fill="currentColor"
+															fill-rule="evenodd"
+															clip-rule="evenodd"
+														></path></svg
+													>
+												</Button>
+											{:else}
+												<div></div>
+											{/if}
+										</div>
+
+										<div class="items-center pb-4">
+											<div class="display inline-flex">
+												{#if subfieldId !== ''}
+													<Button
+														size="sm"
+														variant="outline"
+														class="text text-md font-normal"
+														on:click={clearSubfield}
+													>
+														Subfield: {subfield}
+														<svg
+															class="margin-left ml-2 h-[1.2rem] w-[1.2rem]"
+															viewBox="0 0 15 15"
+															fill="none"
+															xmlns="http://www.w3.org/2000/svg"
+															><path
+																d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+																fill="currentColor"
+																fill-rule="evenodd"
+																clip-rule="evenodd"
+															></path></svg
+														>
+													</Button>
+												{:else}
+													<Button
+														size="sm"
+														variant="ghost"
+														class="text text-md font-normal"
+														disabled>Subfield</Button
+													>
+												{/if}
+											</div>
+										</div>
+
+										<div class="items-center pb-4">
+											<div class="display inline-flex">
+												{#if topicId !== ''}
+													<Button
+														size="sm"
+														variant="outline"
+														class="text text-md font-normal"
+														on:click={clearTopic}
+													>
+														Topic: {topic}
+														<svg
+															class="margin-left ml-2 h-[1.2rem] w-[1.2rem]"
+															viewBox="0 0 15 15"
+															fill="none"
+															xmlns="http://www.w3.org/2000/svg"
+															><path
+																d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+																fill="currentColor"
+																fill-rule="evenodd"
+																clip-rule="evenodd"
+															></path></svg
+														>
+													</Button>
+												{:else}
+													<Button
+														size="sm"
+														variant="ghost"
+														class="text text-md font-normal"
+														disabled>Topic</Button
+													>
+												{/if}
+											</div>
+										</div>
+
 										<div class="items-center pb-4">
 											<div class="display inline-flex">
 												{#if cites !== ''}
@@ -1700,6 +2288,7 @@
 												{/if}
 											</div>
 										</div>
+
 										<div class="items-center pb-4">
 											<div class="display inline-flex">
 												{#if citedBy !== ''}
@@ -1987,11 +2576,11 @@
 														<div
 															class="
 														padding relative flex cursor-default select-none items-center
-														rounded-sm p-2 text-sm outline-none hover:text-blue-500
+														rounded-sm p-2 text-sm outline-none
 														aria-selected:bg-accent aria-selected:text-accent-foreground
 														data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 														>
-															<p
+															<t
 																style="display: inline-flex; align-items:center"
 																class="text-sm dark:text-lime-400"
 															>
@@ -2009,14 +2598,8 @@
 																		clip-rule="evenodd"
 																	></path></svg
 																>
-																{#if total <= 0}
-																	Filter active: no results found
-																{:else}
-																	{#each items as work}
-																		Filter active: {work.id.substring('https://'.length)}
-																	{/each}
-																{/if}
-															</p>
+															</t>
+															openalex.org/works/{workId}
 														</div>
 													{:else}
 														<div></div>
@@ -2076,76 +2659,7 @@
 										{:else}
 											result
 										{/if}
-										<!-- {#if authorId !== ''}
-											by
-											<Button variant="ghost" size="sm" class="text text-md" on:click={clearAuthor}>
-												{authorName}
-												<svg
-													class="margin-left ml-2 h-[1.2rem] w-[1.2rem]"
-													viewBox="0 0 15 15"
-													fill="none"
-													xmlns="http://www.w3.org/2000/svg"
-													><path
-														d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
-														fill="currentColor"
-														fill-rule="evenodd"
-														clip-rule="evenodd"
-													></path></svg
-												>
-											</Button>
-										{:else}
-											<div></div>
-										{/if} -->
 									</t>
-									<!-- <t class="text-sm font-medium text-muted-foreground">
-										{#if sourceId !== ''}
-											from
-											<Button variant="ghost" size="sm" class="text text-md" on:click={clearSource}>
-												{sourceName}
-												<svg
-													class="margin-left ml-2 h-[1.2rem] w-[1.2rem]"
-													viewBox="0 0 15 15"
-													fill="none"
-													xmlns="http://www.w3.org/2000/svg"
-													><path
-														d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
-														fill="currentColor"
-														fill-rule="evenodd"
-														clip-rule="evenodd"
-													></path></svg
-												>
-											</Button>
-										{:else}
-											<div></div>
-										{/if}
-									</t> -->
-									<!-- <t class="text-sm font-medium text-muted-foreground">
-										{#if pubYear !== ''}
-											published in
-											<Button
-												variant="ghost"
-												size="sm"
-												class="text text-md"
-												on:click={clearPublished}
-											>
-												{pubYear}
-												<svg
-													class="margin-left ml-2 h-[1.2rem] w-[1.2rem]"
-													viewBox="0 0 15 15"
-													fill="none"
-													xmlns="http://www.w3.org/2000/svg"
-													><path
-														d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
-														fill="currentColor"
-														fill-rule="evenodd"
-														clip-rule="evenodd"
-													></path></svg
-												>
-											</Button>
-										{:else}
-											<div></div>
-										{/if}
-									</t> -->
 								</div>
 								<div
 									class="ml-auto inline-flex h-10 items-center justify-between space-x-2 whitespace-nowrap rounded-md bg-background px-4 py-2 text-sm font-medium ring-offset-background"
@@ -2423,7 +2937,100 @@
 													{#if work.primary_location !== null}
 														{#if work.primary_location.pdf_url !== null}
 															<div>
-																<!-- class="text-md font-semibold" -->
+																<Button
+																	class="font-semibold"
+																	variant="ghost"
+																	size="sm"
+																	href={work.primary_location.pdf_url}
+																	target="_blank"
+																	rel="noreferrer noopener"
+																>
+																	<svg
+																		class="margin-right mr-2"
+																		width="15"
+																		height="15"
+																		viewBox="0 0 15 15"
+																		fill="none"
+																		xmlns="http://www.w3.org/2000/svg"
+																		><path
+																			d="M3 2.5C3 2.22386 3.22386 2 3.5 2H9.08579C9.21839 2 9.34557 2.05268 9.43934 2.14645L11.8536 4.56066C11.9473 4.65443 12 4.78161 12 4.91421V12.5C12 12.7761 11.7761 13 11.5 13H3.5C3.22386 13 3 12.7761 3 12.5V2.5ZM3.5 1C2.67157 1 2 1.67157 2 2.5V12.5C2 13.3284 2.67157 14 3.5 14H11.5C12.3284 14 13 13.3284 13 12.5V4.91421C13 4.51639 12.842 4.13486 12.5607 3.85355L10.1464 1.43934C9.86514 1.15804 9.48361 1 9.08579 1H3.5ZM4.5 4C4.22386 4 4 4.22386 4 4.5C4 4.77614 4.22386 5 4.5 5H7.5C7.77614 5 8 4.77614 8 4.5C8 4.22386 7.77614 4 7.5 4H4.5ZM4.5 7C4.22386 7 4 7.22386 4 7.5C4 7.77614 4.22386 8 4.5 8H10.5C10.7761 8 11 7.77614 11 7.5C11 7.22386 10.7761 7 10.5 7H4.5ZM4.5 10C4.22386 10 4 10.2239 4 10.5C4 10.7761 4.22386 11 4.5 11H10.5C10.7761 11 11 10.7761 11 10.5C11 10.2239 10.7761 10 10.5 10H4.5Z"
+																			fill="currentColor"
+																			fill-rule="evenodd"
+																			clip-rule="evenodd"
+																		></path></svg
+																	>
+																	PDF
+																</Button>
+															</div>
+														{:else if work.open_access !== null}
+															{#if work.open_access.oa_url !== null}
+																<div>
+																	<Button
+																		class="font-semibold"
+																		variant="ghost"
+																		size="sm"
+																		href={work.open_access.oa_url}
+																		target="_blank"
+																		rel="noreferrer noopener"
+																	>
+																		<svg
+																			class="margin-right mr-2"
+																			width="15"
+																			height="15"
+																			viewBox="0 0 15 15"
+																			fill="none"
+																			xmlns="http://www.w3.org/2000/svg"
+																			><path
+																				d="M9 3.63601C9 2.76044 9.24207 2.11211 9.64154 1.68623C10.0366 1.26502 10.6432 1 11.5014 1C12.4485 1 13.0839 1.30552 13.4722 1.80636C13.8031 2.23312 14 2.84313 14 3.63325H15C15 2.68242 14.7626 1.83856 14.2625 1.19361C13.6389 0.38943 12.6743 0 11.5014 0C10.4294 0 9.53523 0.337871 8.91218 1.0021C8.29351 1.66167 8 2.58135 8 3.63601V6H1C0.447715 6 0 6.44772 0 7V13C0 13.5523 0.447715 14 1 14H10C10.5523 14 11 13.5523 11 13V7C11 6.44772 10.5523 6 10 6H9V3.63601ZM1 7H10V13H1V7Z"
+																				fill="currentColor"
+																				fill-rule="evenodd"
+																				clip-rule="evenodd"
+																			></path></svg
+																		> Open
+																	</Button>
+																</div>
+															{:else}
+																<div></div>
+															{/if}
+														{:else}
+															<div></div>
+														{/if}
+													{:else if work.open_access !== null}
+														{#if work.open_access.oa_url !== null}
+															<div>
+																<Button
+																	class="font-semibold"
+																	variant="ghost"
+																	size="sm"
+																	href={work.open_access.oa_url}
+																	target="_blank"
+																	rel="noreferrer noopener"
+																>
+																	<svg
+																		class="margin-right mr-2"
+																		width="15"
+																		height="15"
+																		viewBox="0 0 15 15"
+																		fill="none"
+																		xmlns="http://www.w3.org/2000/svg"
+																		><path
+																			d="M9 3.63601C9 2.76044 9.24207 2.11211 9.64154 1.68623C10.0366 1.26502 10.6432 1 11.5014 1C12.4485 1 13.0839 1.30552 13.4722 1.80636C13.8031 2.23312 14 2.84313 14 3.63325H15C15 2.68242 14.7626 1.83856 14.2625 1.19361C13.6389 0.38943 12.6743 0 11.5014 0C10.4294 0 9.53523 0.337871 8.91218 1.0021C8.29351 1.66167 8 2.58135 8 3.63601V6H1C0.447715 6 0 6.44772 0 7V13C0 13.5523 0.447715 14 1 14H10C10.5523 14 11 13.5523 11 13V7C11 6.44772 10.5523 6 10 6H9V3.63601ZM1 7H10V13H1V7Z"
+																			fill="currentColor"
+																			fill-rule="evenodd"
+																			clip-rule="evenodd"
+																		></path></svg
+																	> Open
+																</Button>
+															</div>
+														{:else}
+															<div></div>
+														{/if}
+													{:else}
+														<div></div>
+													{/if}
+													<!-- {#if work.primary_location !== null}
+														{#if work.primary_location.pdf_url !== null}
+															<div>
 																<Button
 																	class="font-semibold"
 																	variant="ghost"
@@ -2454,7 +3061,7 @@
 														{/if}
 													{:else}
 														<div></div>
-													{/if}
+													{/if} -->
 												</div>
 											</Table.Cell>
 											<Table.Cell class="text-right">
@@ -2603,11 +3210,70 @@
 																					PDF
 																				</Button>
 																			</div>
+																		{:else if work.open_access !== null}
+																			{#if work.open_access.oa_url !== null}
+																				<div>
+																					<Button
+																						variant="secondary"
+																						size="sm"
+																						class="text text-md"
+																						href={work.open_access.oa_url}
+																						target="_blank"
+																						rel="noreferrer noopener"
+																					>
+																						<svg
+																							class="margin-right mr-2"
+																							width="15"
+																							height="15"
+																							viewBox="0 0 15 15"
+																							fill="none"
+																							xmlns="http://www.w3.org/2000/svg"
+																							><path
+																								d="M9 3.63601C9 2.76044 9.24207 2.11211 9.64154 1.68623C10.0366 1.26502 10.6432 1 11.5014 1C12.4485 1 13.0839 1.30552 13.4722 1.80636C13.8031 2.23312 14 2.84313 14 3.63325H15C15 2.68242 14.7626 1.83856 14.2625 1.19361C13.6389 0.38943 12.6743 0 11.5014 0C10.4294 0 9.53523 0.337871 8.91218 1.0021C8.29351 1.66167 8 2.58135 8 3.63601V6H1C0.447715 6 0 6.44772 0 7V13C0 13.5523 0.447715 14 1 14H10C10.5523 14 11 13.5523 11 13V7C11 6.44772 10.5523 6 10 6H9V3.63601ZM1 7H10V13H1V7Z"
+																								fill="currentColor"
+																								fill-rule="evenodd"
+																								clip-rule="evenodd"
+																							></path></svg
+																						> Open
+																					</Button>
+																				</div>
+																			{:else}
+																				<div></div>
+																			{/if}
 																		{:else}
 																			<div></div>
 																		{/if}
-																	{:else}
-																		<div></div>
+																	{:else if work.open_access !== null}
+																		{#if work.open_access.oa_url !== null}
+																			<div>
+																				<Button
+																					variant="secondary"
+																					size="sm"
+																					class="text text-md"
+																					href={work.open_access.oa_url}
+																					target="_blank"
+																					rel="noreferrer noopener"
+																				>
+																					<svg
+																						class="margin-right mr-2"
+																						width="15"
+																						height="15"
+																						viewBox="0 0 15 15"
+																						fill="none"
+																						xmlns="http://www.w3.org/2000/svg"
+																						><path
+																							d="M9 3.63601C9 2.76044 9.24207 2.11211 9.64154 1.68623C10.0366 1.26502 10.6432 1 11.5014 1C12.4485 1 13.0839 1.30552 13.4722 1.80636C13.8031 2.23312 14 2.84313 14 3.63325H15C15 2.68242 14.7626 1.83856 14.2625 1.19361C13.6389 0.38943 12.6743 0 11.5014 0C10.4294 0 9.53523 0.337871 8.91218 1.0021C8.29351 1.66167 8 2.58135 8 3.63601V6H1C0.447715 6 0 6.44772 0 7V13C0 13.5523 0.447715 14 1 14H10C10.5523 14 11 13.5523 11 13V7C11 6.44772 10.5523 6 10 6H9V3.63601ZM1 7H10V13H1V7Z"
+																							fill="currentColor"
+																							fill-rule="evenodd"
+																							clip-rule="evenodd"
+																						></path></svg
+																					>
+																					Open
+																				</Button>
+																			</div>
+																		{:else}
+																			<div></div>
+																		{/if}
 																	{/if}
 																	{#if work.doi !== null}
 																		<div>
@@ -2843,41 +3509,165 @@
 																		<div></div>
 																	{:else}
 																		<span style="font-weight: bold;"> Topic: </span>
-																		<a
+																		<Sheet.Close asChild let:builder>
+																			<Button
+																				builders={[builder]}
+																				variant="ghost"
+																				size="sm"
+																				class="text text-base font-normal text-blue-500"
+																				style="text-transform: capitalize"
+																				on:click={() =>
+																					setTopic(
+																						work.primary_topic.id.substring(
+																							'https://openalex.org/'.length
+																						),
+																						work.primary_topic.display_name
+																					)}
+																				>{work.primary_topic.display_name}
+																				<svg
+																					class="margin-left ml-2"
+																					width="15"
+																					height="15"
+																					viewBox="0 0 15 15"
+																					fill="none"
+																					xmlns="http://www.w3.org/2000/svg"
+																					><path
+																						d="M8 2.75C8 2.47386 7.77614 2.25 7.5 2.25C7.22386 2.25 7 2.47386 7 2.75V7H2.75C2.47386 7 2.25 7.22386 2.25 7.5C2.25 7.77614 2.47386 8 2.75 8H7V12.25C7 12.5261 7.22386 12.75 7.5 12.75C7.77614 12.75 8 12.5261 8 12.25V8H12.25C12.5261 8 12.75 7.77614 12.75 7.5C12.75 7.22386 12.5261 7 12.25 7H8V2.75Z"
+																						fill="currentColor"
+																						fill-rule="evenodd"
+																						clip-rule="evenodd"
+																					></path></svg
+																				>
+																			</Button> <br />
+																		</Sheet.Close>
+																		<!-- <a
 																			href={work.primary_topic.id}
 																			target="_blank"
 																			rel="noreferrer noopener"
 																			class="text-blue-500 hover:underline"
 																		>
 																			{work.primary_topic.display_name}
-																		</a> <br />
+																		</a> <br /> -->
 																		<span style="font-weight: bold;"> Subfield: </span>
-																		<a
+																		<Sheet.Close asChild let:builder>
+																			<Button
+																				builders={[builder]}
+																				variant="ghost"
+																				size="sm"
+																				class="text text-base font-normal text-blue-500"
+																				style="text-transform: capitalize"
+																				on:click={() =>
+																					setSubfield(
+																						work.primary_topic.subfield.id.substring(
+																							'https://openalex.org/subfields/'.length
+																						),
+																						work.primary_topic.subfield.display_name
+																					)}
+																				>{work.primary_topic.subfield.display_name}
+																				<svg
+																					class="margin-left ml-2"
+																					width="15"
+																					height="15"
+																					viewBox="0 0 15 15"
+																					fill="none"
+																					xmlns="http://www.w3.org/2000/svg"
+																					><path
+																						d="M8 2.75C8 2.47386 7.77614 2.25 7.5 2.25C7.22386 2.25 7 2.47386 7 2.75V7H2.75C2.47386 7 2.25 7.22386 2.25 7.5C2.25 7.77614 2.47386 8 2.75 8H7V12.25C7 12.5261 7.22386 12.75 7.5 12.75C7.77614 12.75 8 12.5261 8 12.25V8H12.25C12.5261 8 12.75 7.77614 12.75 7.5C12.75 7.22386 12.5261 7 12.25 7H8V2.75Z"
+																						fill="currentColor"
+																						fill-rule="evenodd"
+																						clip-rule="evenodd"
+																					></path></svg
+																				>
+																			</Button> <br />
+																		</Sheet.Close>
+																		<!-- <a
 																			href={work.primary_topic.subfield.id}
 																			target="_blank"
 																			rel="noreferrer noopener"
 																			class="text-blue-500 hover:underline"
 																		>
 																			{work.primary_topic.subfield.display_name}
-																		</a> <br />
+																		</a> <br /> -->
 																		<span style="font-weight: bold;"> Field: </span>
-																		<a
+																		<Sheet.Close asChild let:builder>
+																			<Button
+																				builders={[builder]}
+																				variant="ghost"
+																				size="sm"
+																				class="text text-base font-normal text-blue-500"
+																				style="text-transform: capitalize"
+																				on:click={() =>
+																					setField(
+																						work.primary_topic.field.id.substring(
+																							'https://openalex.org/fields/'.length
+																						),
+																						work.primary_topic.field.display_name
+																					)}
+																				>{work.primary_topic.field.display_name}
+																				<svg
+																					class="margin-left ml-2"
+																					width="15"
+																					height="15"
+																					viewBox="0 0 15 15"
+																					fill="none"
+																					xmlns="http://www.w3.org/2000/svg"
+																					><path
+																						d="M8 2.75C8 2.47386 7.77614 2.25 7.5 2.25C7.22386 2.25 7 2.47386 7 2.75V7H2.75C2.47386 7 2.25 7.22386 2.25 7.5C2.25 7.77614 2.47386 8 2.75 8H7V12.25C7 12.5261 7.22386 12.75 7.5 12.75C7.77614 12.75 8 12.5261 8 12.25V8H12.25C12.5261 8 12.75 7.77614 12.75 7.5C12.75 7.22386 12.5261 7 12.25 7H8V2.75Z"
+																						fill="currentColor"
+																						fill-rule="evenodd"
+																						clip-rule="evenodd"
+																					></path></svg
+																				>
+																			</Button> <br />
+																		</Sheet.Close>
+																		<!-- <a
 																			href={work.primary_topic.field.id}
 																			target="_blank"
 																			rel="noreferrer noopener"
 																			class="text-blue-500 hover:underline"
 																		>
 																			{work.primary_topic.field.display_name}
-																		</a> <br />
+																		</a> <br /> -->
 																		<span style="font-weight: bold;"> Domain: </span>
-																		<a
+																		<Sheet.Close asChild let:builder>
+																			<Button
+																				builders={[builder]}
+																				variant="ghost"
+																				size="sm"
+																				class="text text-base font-normal text-blue-500"
+																				style="text-transform: capitalize"
+																				on:click={() =>
+																					setDomain(
+																						work.primary_topic.domain.id.substring(
+																							'https://openalex.org/domains/'.length
+																						),
+																						work.primary_topic.domain.display_name
+																					)}
+																				>{work.primary_topic.domain.display_name}
+																				<svg
+																					class="margin-left ml-2"
+																					width="15"
+																					height="15"
+																					viewBox="0 0 15 15"
+																					fill="none"
+																					xmlns="http://www.w3.org/2000/svg"
+																					><path
+																						d="M8 2.75C8 2.47386 7.77614 2.25 7.5 2.25C7.22386 2.25 7 2.47386 7 2.75V7H2.75C2.47386 7 2.25 7.22386 2.25 7.5C2.25 7.77614 2.47386 8 2.75 8H7V12.25C7 12.5261 7.22386 12.75 7.5 12.75C7.77614 12.75 8 12.5261 8 12.25V8H12.25C12.5261 8 12.75 7.77614 12.75 7.5C12.75 7.22386 12.5261 7 12.25 7H8V2.75Z"
+																						fill="currentColor"
+																						fill-rule="evenodd"
+																						clip-rule="evenodd"
+																					></path></svg
+																				>
+																			</Button> <br />
+																		</Sheet.Close>
+																		<!-- <a
 																			href={work.primary_topic.domain.id}
 																			target="_blank"
 																			rel="noreferrer noopener"
 																			class="text-blue-500 hover:underline"
 																		>
 																			{work.primary_topic.domain.display_name}
-																		</a> <br />
+																		</a> <br /> -->
 																	{/if}
 																	{#if work.sustainable_development_goals == undefined || work.sustainable_development_goals.length == 0}
 																		<div></div>
