@@ -32,7 +32,7 @@
 			class="font font-medium underline"
 		>
 			shadcn</a
-		>. Ported to Svelte by
+		>, ported to Svelte by
 		<a
 			href="https://x.com/huntabyte"
 			target="_blank"
