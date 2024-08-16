@@ -36,11 +36,11 @@
 				api += `&filter=last_known_institutions.id:${encodeURIComponent(institutionId.trim())}`;
 			}
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			autocomplete_authors = response.data.results;
-			console.log('getAuthors successful', autocomplete_authors);
-			console.log(response.data);
+			// console.log('getAuthors successful', autocomplete_authors);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getAuthors:', error.message);
 		}
@@ -52,11 +52,11 @@
 		try {
 			let api = `https://api.openalex.org/autocomplete/institutions?q=${instituteName}`;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			autocomplete_institute = response.data.results;
-			console.log('getInstitute successful', autocomplete_institute);
-			console.log(response.data);
+			// console.log('getInstitute successful', autocomplete_institute);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getInstitute:', error.message);
 		}
@@ -66,7 +66,8 @@
 
 	const fetchAuthors = async () => {
 		try {
-			let api = `https://api.openalex.org/authors?cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=works_count:>0`;
+			// let api = `https://api.openalex.org/authors?cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=works_count:>0`;
+			let api = `https://api.openalex.org/authors?mailto=inbox@ervino.id&cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=works_count:>0`;
 
 			if (authorId.trim() !== '') {
 				api += `,ids.openalex:${encodeURIComponent(authorId.trim())}`;
@@ -80,20 +81,20 @@
 				api += `,last_known_institutions.id:${encodeURIComponent(institutionId)}`;
 			}
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			items = response.data.results;
-			console.log('fetchAuthors successful', items);
-			console.log(response.data);
-			console.log(response.data.meta.count, 'results');
+			// console.log('fetchAuthors successful', items);
+			// console.log(response.data);
+			// console.log(response.data.meta.count, 'results');
 
 			total = response.data.meta.count;
 			// Paging
 			prev = cursorHistory.length ? cursorHistory[cursorHistory.length - 1] : '*';
 			next = response.data.meta.next_cursor;
-			console.log('next_cursor:', next);
-			console.log('this_cursor:', cursor);
-			console.log('prev_cursor:', prev);
+			// console.log('next_cursor:', next);
+			// console.log('this_cursor:', cursor);
+			// console.log('prev_cursor:', prev);
 		} catch (error: any) {
 			console.error('There was a problem with the GET request:', error.message);
 		}
@@ -131,7 +132,7 @@
 		searchTerm = string;
 		authorId = '';
 		authorName = '';
-		console.log(searchTerm);
+		// console.log(searchTerm);
 		fetchAuthors();
 	}
 
@@ -167,7 +168,7 @@
 		searchTerm = '';
 		authorId = id;
 		authorName = string;
-		console.log('[' + authorId + ']', authorName);
+		// console.log('[' + authorId + ']', authorName);
 		fetchAuthors();
 	}
 
@@ -175,7 +176,7 @@
 		cursor = '*';
 		institutionId = id;
 		instituteName = string;
-		console.log('[' + institutionId + ']', instituteName);
+		// console.log('[' + institutionId + ']', instituteName);
 		fetchAuthors();
 	}
 
@@ -927,7 +928,7 @@
 									{#each items as work}
 										<Table.Row>
 											<Table.Cell class="font-medium">
-												<a href={work.id} target="_blank">
+												<a href={work.id} target="_blank" rel="noreferrer noopenner">
 													{work.display_name}
 												</a>
 												<div style="display: flex; " class="text-sm text-muted-foreground">

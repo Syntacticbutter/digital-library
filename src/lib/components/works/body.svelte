@@ -68,11 +68,11 @@
 		try {
 			let api = `https://api.openalex.org/autocomplete/institutions?q=${instituteName}`;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			autocomplete_institute = response.data.results;
-			console.log('getInstitute successful', autocomplete_institute);
-			console.log(response.data);
+			// console.log('getInstitute successful', autocomplete_institute);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getInstitute:', error.message);
 		}
@@ -84,11 +84,11 @@
 		try {
 			let api = `https://api.openalex.org/autocomplete/authors?q=${authorName}`;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			autocomplete_authors = response.data.results;
-			console.log('getAuthors successful', autocomplete_authors);
-			console.log(response.data);
+			// console.log('getAuthors successful', autocomplete_authors);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getAuthors:', error.message);
 		}
@@ -160,11 +160,11 @@
 				api += `,has_fulltext:${fulltext}`;
 			}
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			autocomplete_works = response.data.results;
-			console.log('getWorks successful', autocomplete_works);
-			console.log(response.data);
+			// console.log('getWorks successful', autocomplete_works);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getWorks:', error.message);
 		}
@@ -176,11 +176,11 @@
 		try {
 			let api = `https://api.openalex.org/autocomplete/sources?q=${sourceName}`;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			autocomplete_sources = response.data.results;
-			console.log('getSources successful', autocomplete_sources);
-			console.log(response.data);
+			// console.log('getSources successful', autocomplete_sources);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getSources:', error.message);
 		}
@@ -192,11 +192,11 @@
 		try {
 			let api = `https://api.openalex.org/works?group_by=publication_year`;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			list_published = response.data.group_by;
-			console.log('getPublished successful', list_published);
-			console.log(response.data);
+			// console.log('getPublished successful', list_published);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getPublished:', error.message);
 		}
@@ -208,11 +208,11 @@
 		try {
 			let api = `https://api.openalex.org/works?group_by=type`;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			list_types = response.data.group_by;
-			console.log('getTypes successful', list_types);
-			console.log(response.data);
+			// console.log('getTypes successful', list_types);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getTypes:', error.message);
 		}
@@ -224,11 +224,11 @@
 		try {
 			let api = `https://api.openalex.org/works?group_by=oa_status`;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			list_statuses = response.data.group_by;
-			console.log('getStatuses successful', list_statuses);
-			console.log(response.data);
+			// console.log('getStatuses successful', list_statuses);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getStatuses:', error.message);
 		}
@@ -236,43 +236,15 @@
 
 	onMount(getStatuses);
 
-	// const getTopics = async () => {
-	// 	try {
-	// 		let api = `https://api.openalex.org/works?group_by=primary_topic.id`;
-
-	// 		console.log(api);
-	// 		const response = await axios.get(api);
-	// 		topics = response.data.group_by;
-	// 		console.log('getTopics successful', topics);
-	// 		console.log(response.data);
-	// 	} catch (error: any) {
-	// 		console.error('There was a problem with getTopics:', error.message);
-	// 	}
-	// };
-
-	// const getSubfields = async () => {
-	// 	try {
-	// 		let api = `https://api.openalex.org/works?group_by=primary_topic.subfield.id`;
-
-	// 		console.log(api);
-	// 		const response = await axios.get(api);
-	// 		subfields = response.data.group_by;
-	// 		console.log('getSubfields successful', subfields);
-	// 		console.log(response.data);
-	// 	} catch (error: any) {
-	// 		console.error('There was a problem with getSubfields:', error.message);
-	// 	}
-	// };
-
 	const getFields = async () => {
 		try {
 			let api = `https://api.openalex.org/works?group_by=primary_topic.field.id`;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			fields = response.data.group_by;
-			console.log('getFields successful', fields);
-			console.log(response.data);
+			// console.log('getFields successful', fields);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getFields:', error.message);
 		}
@@ -282,11 +254,11 @@
 		try {
 			let api = `https://api.openalex.org/works?group_by=primary_topic.domain.id`;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			domains = response.data.group_by;
-			console.log('getDomains successful', domains);
-			console.log(response.data);
+			// console.log('getDomains successful', domains);
+			// console.log(response.data);
 		} catch (error: any) {
 			console.error('There was a problem with getDomains:', error.message);
 		}
@@ -298,11 +270,11 @@
 		try {
 			let api = `https://api.citeas.org/product/` + string;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			citations = response.data.citations;
-			console.log('getCitations successful');
-			console.log(citations[0].citation);
+			// console.log('getCitations successful');
+			// console.log(citations[0].citation);
 			navigator.clipboard.writeText(citations[0].citation);
 
 			toast.success('Citation copied', {
@@ -325,7 +297,8 @@
 
 	const fetchData = async () => {
 		try {
-			let api = `https://api.openalex.org/works?cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=publication_year:<${nxtYr}`;
+			// let api = `https://api.openalex.org/works?cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=publication_year:<${nxtYr}`;
+			let api = `https://api.openalex.org/works?mailto=inbox@ervino.id&cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=publication_year:<${nxtYr}`;
 
 			if (authorId.trim() !== '') {
 				api += `,authorships.author.id:${encodeURIComponent(authorId.trim())}`;
@@ -387,20 +360,20 @@
 				api += `,has_fulltext:${fulltext}`;
 			}
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			items = response.data.results;
-			console.log('fetchData successful', items);
-			console.log(response.data);
-			console.log(response.data.meta.count, 'results');
+			// console.log('fetchData successful', items);
+			// console.log(response.data);
+			// console.log(response.data.meta.count, 'results');
 
 			total = response.data.meta.count;
-			// Paging
+
 			prev = cursorHistory.length ? cursorHistory[cursorHistory.length - 1] : '*';
 			next = response.data.meta.next_cursor;
-			console.log('next_cursor:', next);
-			console.log('this_cursor:', cursor);
-			console.log('prev_cursor:', prev);
+			// console.log('next_cursor:', next);
+			// console.log('this_cursor:', cursor);
+			// console.log('prev_cursor:', prev);
 		} catch (error: any) {
 			console.error('There was a problem with the GET request:', error.message);
 		}
@@ -448,7 +421,7 @@
 		searchTerm = string;
 		workId = '';
 		workTitle = '';
-		console.log(searchTerm);
+		// console.log(searchTerm);
 		fetchData();
 	}
 
@@ -575,7 +548,7 @@
 		cursor = '*';
 		authorId = id;
 		authorName = string;
-		console.log('[' + authorId + ']', authorName);
+		// console.log('[' + authorId + ']', authorName);
 		fetchData();
 	}
 
@@ -584,7 +557,7 @@
 		searchTerm = '';
 		workId = id;
 		workTitle = string;
-		console.log('[' + workId + ']', workTitle);
+		// console.log('[' + workId + ']', workTitle);
 		fetchData();
 	}
 
@@ -592,7 +565,7 @@
 		cursor = '*';
 		institutionId = id;
 		instituteName = string;
-		console.log('[' + institutionId + ']', instituteName);
+		// console.log('[' + institutionId + ']', instituteName);
 		fetchData();
 	}
 
@@ -600,28 +573,28 @@
 		cursor = '*';
 		sourceId = id;
 		sourceName = string;
-		console.log('[' + sourceId + ']', sourceName);
+		// console.log('[' + sourceId + ']', sourceName);
 		fetchData();
 	}
 
 	function setPubYear(string: string) {
 		cursor = '*';
 		pubYear = string;
-		console.log(pubYear);
+		// console.log(pubYear);
 		fetchData();
 	}
 
 	function setWorkType(string: string) {
 		cursor = '*';
 		workType = string;
-		console.log(workType);
+		// console.log(workType);
 		fetchData();
 	}
 
 	function setStatus(string: string) {
 		cursor = '*';
 		statusName = string;
-		console.log(statusName);
+		// console.log(statusName);
 		fetchData();
 	}
 
@@ -629,7 +602,7 @@
 		cursor = '*';
 		topicId = id;
 		topic = string;
-		console.log(topicId);
+		// console.log(topicId);
 		fetchData();
 	}
 
@@ -637,7 +610,7 @@
 		cursor = '*';
 		subfieldId = id;
 		subfield = string;
-		console.log(subfieldId);
+		// console.log(subfieldId);
 		fetchData();
 	}
 
@@ -645,7 +618,7 @@
 		cursor = '*';
 		fieldId = id;
 		field = string;
-		console.log(fieldId);
+		// console.log(fieldId);
 		fetchData();
 	}
 
@@ -653,7 +626,7 @@
 		cursor = '*';
 		domainId = id;
 		domain = string;
-		console.log(domainId);
+		// console.log(domainId);
 		fetchData();
 	}
 
@@ -665,7 +638,7 @@
 		citedBy = id;
 		cites = '';
 		related = '';
-		console.log(citedBy);
+		// console.log(citedBy);
 		fetchData();
 	}
 
@@ -677,7 +650,7 @@
 		citedBy = '';
 		cites = id;
 		related = '';
-		console.log(cites);
+		// console.log(cites);
 		fetchData();
 	}
 
@@ -689,7 +662,7 @@
 		citedBy = '';
 		cites = '';
 		related = id;
-		console.log(related);
+		// console.log(related);
 		fetchData();
 	}
 
@@ -731,7 +704,7 @@
 
 	// Generate the paragraph
 	const paragraph = generateParagraph(abstract_inverted_index);
-	// console.log(paragraph);
+	// // console.log(paragraph);
 </script>
 
 <div id="markdown" class="markdown pb-12 pt-8">
