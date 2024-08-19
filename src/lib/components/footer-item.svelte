@@ -16,7 +16,7 @@
 		>
 			OpenAlex</a
 		>
-		&
+		and
 		<a
 			href="https://citeas.org/"
 			target="_blank"
