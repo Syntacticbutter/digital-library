@@ -10,7 +10,7 @@
 		try {
 			let api = `https://api.citeas.org/product/` + string;
 
-			console.log(api);
+			// console.log(api);
 			const response = await axios.get(api);
 			citations = response.data.citations;
 			// console.log('getCitations successful');
