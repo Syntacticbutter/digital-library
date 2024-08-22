@@ -30,7 +30,7 @@
 
 	const getAuthors = async () => {
 		try {
-			let api = `https://api.openalex.org/autocomplete/authors?q=${authorName}`;
+			let api = `https://api.openalex.org/autocomplete/authors?mailto=inbox@ervino.id&q=${authorName}`;
 
 			if (institutionId !== '') {
 				api += `&filter=last_known_institutions.id:${encodeURIComponent(institutionId.trim())}`;
@@ -50,7 +50,7 @@
 
 	const getInstitute = async () => {
 		try {
-			let api = `https://api.openalex.org/autocomplete/institutions?q=${instituteName}`;
+			let api = `https://api.openalex.org/autocomplete/institutions?mailto=inbox@ervino.id&q=${instituteName}`;
 
 			// console.log(api);
 			const response = await axios.get(api);
@@ -66,7 +66,6 @@
 
 	const fetchAuthors = async () => {
 		try {
-			// let api = `https://api.openalex.org/authors?cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=works_count:>0`;
 			let api = `https://api.openalex.org/authors?mailto=inbox@ervino.id&cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=works_count:>0`;
 
 			if (authorId.trim() !== '') {

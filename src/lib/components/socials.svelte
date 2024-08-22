@@ -13,7 +13,7 @@
 			console.log(api);
 			const response = await axios.get(api);
 			citations = response.data.citations;
-			console.log('getCitations successful');
+			// console.log('getCitations successful');
 			console.log(citations[0].citation);
 			navigator.clipboard.writeText(citations[0].citation);
 

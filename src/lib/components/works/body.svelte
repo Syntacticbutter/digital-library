@@ -66,7 +66,7 @@
 
 	const getInstitute = async () => {
 		try {
-			let api = `https://api.openalex.org/autocomplete/institutions?q=${instituteName}`;
+			let api = `https://api.openalex.org/autocomplete/institutions?mailto=inbox@ervino.id&q=${instituteName}`;
 
 			// console.log(api);
 			const response = await axios.get(api);
@@ -82,7 +82,7 @@
 
 	const getAuthors = async () => {
 		try {
-			let api = `https://api.openalex.org/autocomplete/authors?q=${authorName}`;
+			let api = `https://api.openalex.org/autocomplete/authors?mailto=inbox@ervino.id&q=${authorName}`;
 
 			// console.log(api);
 			const response = await axios.get(api);
@@ -98,7 +98,7 @@
 
 	const getWorks = async () => {
 		try {
-			let api = `https://api.openalex.org/autocomplete/works?q=${workTitle}&filter=publication_year:<${nxtYr}`;
+			let api = `https://api.openalex.org/autocomplete/works?mailto=inbox@ervino.id&q=${workTitle}&filter=publication_year:<${nxtYr}`;
 
 			if (authorId.trim() !== '') {
 				api += `,authorships.author.id:${encodeURIComponent(authorId.trim())}`;
@@ -174,7 +174,7 @@
 
 	const getSources = async () => {
 		try {
-			let api = `https://api.openalex.org/autocomplete/sources?q=${sourceName}`;
+			let api = `https://api.openalex.org/autocomplete/sources?mailto=inbox@ervino.id&q=${sourceName}`;
 
 			// console.log(api);
 			const response = await axios.get(api);
@@ -190,7 +190,7 @@
 
 	const getPublished = async () => {
 		try {
-			let api = `https://api.openalex.org/works?group_by=publication_year`;
+			let api = `https://api.openalex.org/works?mailto=inbox@ervino.id&group_by=publication_year`;
 
 			// console.log(api);
 			const response = await axios.get(api);
@@ -202,11 +202,9 @@
 		}
 	};
 
-	onMount(getPublished);
-
 	const getTypes = async () => {
 		try {
-			let api = `https://api.openalex.org/works?group_by=type`;
+			let api = `https://api.openalex.org/works?mailto=inbox@ervino.id&group_by=type`;
 
 			// console.log(api);
 			const response = await axios.get(api);
@@ -218,11 +216,9 @@
 		}
 	};
 
-	onMount(getTypes);
-
 	const getStatuses = async () => {
 		try {
-			let api = `https://api.openalex.org/works?group_by=oa_status`;
+			let api = `https://api.openalex.org/works?mailto=inbox@ervino.id&group_by=oa_status`;
 
 			// console.log(api);
 			const response = await axios.get(api);
@@ -234,11 +230,9 @@
 		}
 	};
 
-	onMount(getStatuses);
-
 	const getFields = async () => {
 		try {
-			let api = `https://api.openalex.org/works?group_by=primary_topic.field.id`;
+			let api = `https://api.openalex.org/works?mailto=inbox@ervino.id&group_by=primary_topic.field.id`;
 
 			// console.log(api);
 			const response = await axios.get(api);
@@ -252,7 +246,7 @@
 
 	const getDomains = async () => {
 		try {
-			let api = `https://api.openalex.org/works?group_by=primary_topic.domain.id`;
+			let api = `https://api.openalex.org/works?mailto=inbox@ervino.id&group_by=primary_topic.domain.id`;
 
 			// console.log(api);
 			const response = await axios.get(api);
@@ -274,7 +268,7 @@
 			const response = await axios.get(api);
 			citations = response.data.citations;
 			// console.log('getCitations successful');
-			// console.log(citations[0].citation);
+			console.log(citations[0].citation);
 			navigator.clipboard.writeText(citations[0].citation);
 
 			toast.success('Citation copied', {
@@ -297,7 +291,6 @@
 
 	const fetchData = async () => {
 		try {
-			// let api = `https://api.openalex.org/works?cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=publication_year:<${nxtYr}`;
 			let api = `https://api.openalex.org/works?mailto=inbox@ervino.id&cursor=${cursor || '*'}&per-page=${pageSize}&search=${searchTerm}&filter=publication_year:<${nxtYr}`;
 
 			if (authorId.trim() !== '') {
@@ -730,7 +723,6 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<!-- <Button size="sm" variant="outline" on:click={autocompleteInstitute}> -->
 														<Button size="sm" variant="outline">
 															<svg
 																xmlns="http://www.w3.org/2000/svg"
@@ -929,7 +921,6 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<!-- <Button size="sm" variant="outline" on:click={autocompleteAuthor}> -->
 														<Button size="sm" variant="outline">
 															<svg
 																class="margin mr-2"
@@ -1126,8 +1117,7 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<!-- <Button size="sm" variant="outline" on:click={getPublished}> -->
-														<Button size="sm" variant="outline">
+														<Button size="sm" variant="outline" on:click={getPublished}>
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -1277,7 +1267,6 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<!-- <Button size="sm" variant="outline" on:click={autocompleteSource}> -->
 														<Button size="sm" variant="outline">
 															<svg
 																class="margin mr-2"
@@ -1444,8 +1433,7 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<!-- <Button size="sm" variant="outline" on:click={getTypes}> -->
-														<Button size="sm" variant="outline">
+														<Button size="sm" variant="outline" on:click={getTypes}>
 															<svg
 																class="margin mr-2"
 																width="15"
@@ -1627,8 +1615,7 @@
 											<Dialog.Root>
 												<div class="w-full flex-1 md:w-auto md:flex-none">
 													<Dialog.Trigger>
-														<!-- <Button size="sm" variant="outline" on:click={getStatuses}> -->
-														<Button size="sm" variant="outline">
+														<Button size="sm" variant="outline" on:click={getStatuses}>
 															<svg
 																class="margin mr-2"
 																width="15"
